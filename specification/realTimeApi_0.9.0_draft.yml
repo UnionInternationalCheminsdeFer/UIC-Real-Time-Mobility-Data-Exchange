@@ -745,7 +745,7 @@ components:
           type: string
           examples:
             - "Amsterdam Centraal"
-            - "Köln Hbf"
+            - "KÃ¶ln Hbf"
       required:
         - code
     

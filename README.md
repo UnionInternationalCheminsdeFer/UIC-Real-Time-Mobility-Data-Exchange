@@ -1,4 +1,4 @@
-# UIC-Real-Time-Mobility-Exchange
+# UIC-Real-Time-Mobility-Data-Exchange
 api specification for the exchange of real time mobility data
 
 

@@ -760,12 +760,16 @@ components:
         serviceName:
           description: >-
             commercial servide name (in case of trains the train number) used for
-            communication with the customer. Eigther service or line number must
-            be provided
+            communication with the customer. Either service or line number must
+            be provided. 
           type: string
           examples: 
            - "4711"
         lineName:
+          description: >-
+            commercial line name used for
+            communication with the customer. Either service or line number must
+            be provided.    
           type: string
           examples:
             - "11"
@@ -835,9 +839,7 @@ components:
             required:
               - carrier
               - carrierServiceId
-      required:
-        - serviceName
-    
+   
     
     Departure:
       allOf:

@@ -409,7 +409,7 @@ components:
   schemas:
 
     DateTime:
-      description: UTC date in format YYYY-MM-DDThh:mm:ssTZD. TDZ should be given as offset (eg. 1997-07-16T19:20:30.45+01:00)
+      description: UTC date in format YYYY-MM-DDThh:mm:ss.sTZD. TZD must be given as offset (eg. 1997-07-16T19:20:30.45+01:00)
       type: string
       format: date-time
       examples: 
@@ -578,7 +578,10 @@ components:
            description: reference to a time table
            $ref: "#/components/schemas/TimeTableReference"     
         events:
-          $ref: "#/components/schemas/ServiceEvent"
+          description: list of events along the service run ordered by time
+          type: array
+          items:          
+             $ref: "#/components/schemas/ServiceEvent"
         cancelled:
           description: default false
           type: boolean
@@ -645,6 +648,7 @@ components:
           items:
             - $ref: "#/components/schemas/Company"
       required:
+        - id
         - provider
         - creationTime 
         
@@ -760,16 +764,12 @@ components:
         serviceName:
           description: >-
             commercial servide name (in case of trains the train number) used for
-            communication with the customer. Either service or line number must
-            be provided. 
+            communication with the customer. Eigther service or line number must
+            be provided
           type: string
           examples: 
            - "4711"
         lineName:
-          description: >-
-            commercial line name used for
-            communication with the customer. Either service or line number must
-            be provided.    
           type: string
           examples:
             - "11"
@@ -839,7 +839,9 @@ components:
             required:
               - carrier
               - carrierServiceId
-   
+      required:
+        - serviceName
+    
     
     Departure:
       allOf:
@@ -946,8 +948,7 @@ components:
                 $ref: "#/components/schemas/Company"                
           required:
               - location
-              - type
-              - plannedTime        
+              - type  
               
     DelayReason:
       description: reason code for delays TAF codes or Carrier codes

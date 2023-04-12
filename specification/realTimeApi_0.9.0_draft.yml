@@ -1167,7 +1167,7 @@ components:
         $ref: "#/components/schemas/Country"
       
     ServiceEvent:
-      description: Event on a service run. This could eigther be a departure, arrival or a pass through.
+      description: Event on a service run. This could eigther be a departure, arrival, a pass through or a geo-tracking.
       type: object
       additionalProperties: false
       discriminator:

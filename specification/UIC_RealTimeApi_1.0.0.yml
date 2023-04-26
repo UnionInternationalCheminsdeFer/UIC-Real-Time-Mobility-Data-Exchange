@@ -970,6 +970,7 @@ components:
       type: string
       examples: 
         - "urn:x-taf:25"
+        - "WAITING_FOR_DELAYED_PASSENGERS"
     
     Significance:
       description: >-

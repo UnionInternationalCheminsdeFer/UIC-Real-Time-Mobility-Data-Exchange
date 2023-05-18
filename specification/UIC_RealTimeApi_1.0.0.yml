@@ -607,7 +607,7 @@ components:
         - serviceId
         - dataDelivery
         - serviceRef
-        - sections
+        - events
         
     CancellationType:
        description: >-

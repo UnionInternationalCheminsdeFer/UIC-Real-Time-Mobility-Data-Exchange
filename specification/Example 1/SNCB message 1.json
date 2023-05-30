@@ -1,0 +1,82 @@
+{
+	"serviceId": "b635e785-cc5e-49c6-9f9a-d90a39aa508f",
+	"serviceRef": {
+		"serviceId": "b635e785-cc5e-49c6-9f9a-d90a39aa508f",
+		"serviceName": "10",
+		"serviceBrandAbreviation": "ICE",
+		"originalPlannedStartDate": "2023-05-18",
+		"plannedStartDate": "2023-05-18"
+	},
+	"dataDelivery": {
+		"id": "36c1ceae-420f-4112-ba0b-49e3a6d0e855",
+		"provider": "1088",
+		"creationTime": "2023-05-17T09:35:47.0+01:00"
+	},
+	"events": [
+		{
+			"objectType": "Arrival",
+			"location": {
+				"code": "urn:uic:stn:8841004",
+				"name": "Liège-Guillemins"
+			},
+			"plannedTime": "2023-05-18T20:44:00.0+01:00",
+			"carrier": "2480",
+			"significance": "MASTER",
+			"stopId": "8841004_1",
+			"track": "3"
+		},	
+		{
+			"objectType": "Departure",
+			"location": {
+				"code": "urn:uic:stn:8841004",
+				"name": "Liège-Guillemins"
+			},
+			"plannedTime": "2023-05-18T20:46:00.0+01:00",
+			"carrier": "2480",
+			"significance": "MASTER",
+			"stopId": "8841004_1",
+			"track": "3"
+		},
+		{
+			"objectType": "Arrival",
+			"location": {
+				"code": "urn:uic:stn:8812005",
+				"name": "Bruxelles-Nord"
+			},
+			"plannedTime": "2023-05-18T21:26:00.0+01:00",
+			"carrier": "2480",
+			"significance": "MASTER",
+			"stopId": "8812005_1",
+			"track": "3"
+		},	
+		{
+			"objectType": "Departure",
+			"location": {
+				"code": "urn:uic:stn8812005",
+				"name": "Bruxelles-Nord"
+			},
+			"plannedTime": "2023-05-18T21:28:00.0+01:00",
+			"carrier": "2480",
+			"significance": "FORWARDED",
+			"stopId": "8841004_1",
+			"track": "4"
+		},	
+		{
+			"objectType": "Arrival",
+			"location": {
+				"code": "urn:uic:stn:8814001",
+				"name": "Bruxelles-Midi"
+			},
+			"plannedTime": "2023-05-18T21:35:00.0+01:00",
+			"carrier": "2480",
+			"significance": "MASTER",
+			"stopId": "8814001_1",
+			"track": "9"
+		}				
+		
+	],
+	"facilities": [
+		"BISTRO"
+	]
+	
+}

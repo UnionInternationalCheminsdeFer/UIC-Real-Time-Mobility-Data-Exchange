@@ -1,0 +1,740 @@
+{
+	"serviceId": "8b4b6714-dfe0-4899-b370-7ad6efad54e9",
+	"serviceRef": {
+		"serviceId": "8b4b6714-dfe0-4899-b370-7ad6efad54e9",
+		"serviceName": "10",
+		"serviceBrandAbreviation": "ICE",
+		"originalPlannedStartDate": "2023-05-18",
+		"plannedStartDate": "2023-05-18"
+	},
+	"dataDelivery": {
+		"id": "149c9b31-9b75-43e7-8677-22c8348cdb66",
+		"provider": "1080",
+		"creationTime": "2023-05-17T09:30:47.0+01:00"
+	},
+	"events": [
+		{
+			"objectType": "Departure",
+			"location": {
+				"code": "urn:uic:stn:8011068",
+				"name": "Frankfurt(Main)Hbf"
+			},
+			"plannedTime": "2023-05-18T18:28:00.0+01:00",
+			"carrier": "2480",
+			"significance": "MASTER",
+			"stopId": "8011068_1",
+			"track": "19",
+			"vehicleGroups": [
+				{
+					"service": {
+						"serviceName": "10"
+					},
+					"vehicles": [
+						{
+							"vehicleRef": {
+								"vehicleId": "938054060075",
+								"vehicleNumber": "29"
+							},
+							"serviceClasses": [ "CLASS_1" ] ,		
+							"track": "19",
+							"trackSection": "D"
+						},
+						{
+							"vehicleRef": {
+								"vehicleId": "938054061073",
+								"vehicleNumber": "28"
+							},
+							"serviceClasses": [ "CLASS_1" ] ,		
+							"track": "19",
+							"trackSection": "C"
+						},
+						{
+							"vehicleRef": {
+								"vehicleId": "938054062071",
+								"vehicleNumber": "27"
+							},
+							"serviceClasses": [ "CLASS_2" ] ,		
+							"track": "19",
+							"trackSection": "C"
+						},
+						{
+							"vehicleRef": {
+								"vehicleId": "938054063079",
+								"vehicleNumber": "26"
+							},
+							"serviceClasses": [ "CLASS_2" ] ,		
+							"facilities" : [ "BISTRO" ],
+							"track": "19",
+							"trackSection": "C"
+						},
+						{
+							"vehicleRef": {
+								"vehicleId": "938054068078",
+								"vehicleNumber": "25"
+							},
+							"serviceClasses": [ "CLASS_2" ] ,		
+							"track": "19",
+							"trackSection": "B"
+						},
+						{
+							"vehicleRef": {
+								"vehicleId": "938054067070",
+								"vehicleNumber": "23"
+							},
+							"serviceClasses": [ "CLASS_2" ] ,		
+							"track": "19",
+							"trackSection": "B"
+						},
+						{
+							"vehicleRef": {
+								"vehicleId": "938054066072",
+								"vehicleNumber": "22"
+							},
+							"serviceClasses": [ "CLASS_2" ] ,		
+							"track": "19",
+							"trackSection": "A"
+						}, 	 
+						{
+							"vehicleRef": {
+								"vehicleId": "938054065074",
+								"vehicleNumber": "21"
+							},
+							"serviceClasses": [ "CLASS_2" ] ,		
+							"track": "19",
+							"trackSection": "A"
+						}								
+					]
+				}
+			]
+		},
+		{
+			"objectType": "Arrival",
+			"location": {
+				"code": "urn:uic:stn:8061676",
+				"name": "Frankfurt(M) Flughafen Fernbf"
+			},
+			"plannedTime": "2023-05-18T18:39:00.0+01:00",
+			"carrier": "2480",
+			"significance": "MASTER",
+			"stopId": "8061676_1",
+			"track": "7",
+			"vehicleGroups": [
+				{
+					"service": {
+						"serviceName": "10"
+					},
+					"vehicles": [
+						{
+							"vehicleRef": {
+								"vehicleId": "938054060075",
+								"vehicleNumber": "29"
+							},
+							"serviceClasses": [ "CLASS_1" ] ,		
+							"track": "7",
+							"trackSection": "B"
+						},
+						{
+							"vehicleRef": {
+								"vehicleId": "938054061073",
+								"vehicleNumber": "28"
+							},
+							"serviceClasses": [ "CLASS_1" ] ,		
+							"track": "7",
+							"trackSection": "C"
+						},
+						{
+							"vehicleRef": {
+								"vehicleId": "938054062071",
+								"vehicleNumber": "27"
+							},
+							"serviceClasses": [ "CLASS_2" ] ,		
+							"track": "7",
+							"trackSection": "C"
+						},
+						{
+							"vehicleRef": {
+								"vehicleId": "938054063079",
+								"vehicleNumber": "26"
+							},
+							"serviceClasses": [ "CLASS_2" ] ,		
+							"facilities" : [ "BISTRO" ],
+							"track": "7",
+							"trackSection": "C"
+						},
+						{
+							"vehicleRef": {
+								"vehicleId": "938054068078",
+								"vehicleNumber": "25"
+							},
+							"serviceClasses": [ "CLASS_2" ] ,		
+							"track": "7",
+							"trackSection": "D"
+						},
+						{
+							"vehicleRef": {
+								"vehicleId": "938054067070",
+								"vehicleNumber": "23"
+							},
+							"serviceClasses": [ "CLASS_2" ] ,		
+							"track": "7",
+							"trackSection": "D"
+						},
+						{
+							"vehicleRef": {
+								"vehicleId": "938054066072",
+								"vehicleNumber": "22"
+							},
+							"serviceClasses": [ "CLASS_2" ] ,		
+							"track": "7",
+							"trackSection": "E"
+						}, 	 
+						{
+							"vehicleRef": {
+								"vehicleId": "938054065074",
+								"vehicleNumber": "21"
+							},
+							"serviceClasses": [ "CLASS_2" ] ,		
+							"track": "7",
+							"trackSection": "E"
+						}								
+					]
+				}
+			]
+		},
+		{
+			"objectType": "Departure",
+			"location": {
+				"code": "urn:uic:stn:8011068",
+				"name": "Frankfurt(M) Flughafen Fernbf"
+			},
+			"plannedTime": "2023-05-18T18:42:00.0+01:00",
+			"carrier": "2480",
+			"significance": "MASTER",
+			"stopId": "8061676_1",
+			"track": "7",
+			"vehicleGroups": [
+				{
+					"service": {
+						"serviceName": "10"
+					},
+					"vehicles": [
+						{
+							"vehicleRef": {
+								"vehicleId": "938054060075",
+								"vehicleNumber": "29"
+							},
+							"serviceClasses": [ "CLASS_1" ] ,		
+							"track": "7",
+							"trackSection": "B"
+						},
+						{
+							"vehicleRef": {
+								"vehicleId": "938054061073",
+								"vehicleNumber": "28"
+							},
+							"serviceClasses": [ "CLASS_1" ] ,		
+							"track": "7",
+							"trackSection": "C"
+						},
+						{
+							"vehicleRef": {
+								"vehicleId": "938054062071",
+								"vehicleNumber": "27"
+							},
+							"serviceClasses": [ "CLASS_2" ] ,		
+							"track": "7",
+							"trackSection": "C"
+						},
+						{
+							"vehicleRef": {
+								"vehicleId": "938054063079",
+								"vehicleNumber": "26"
+							},
+							"serviceClasses": [ "CLASS_2" ] ,		
+							"facilities" : [ "BISTRO" ],
+							"track": "7",
+							"trackSection": "C"
+						},
+						{
+							"vehicleRef": {
+								"vehicleId": "938054068078",
+								"vehicleNumber": "25"
+							},
+							"serviceClasses": [ "CLASS_2" ] ,		
+							"track": "7",
+							"trackSection": "D"
+						},
+						{
+							"vehicleRef": {
+								"vehicleId": "938054067070",
+								"vehicleNumber": "23"
+							},
+							"serviceClasses": [ "CLASS_2" ] ,		
+							"track": "7",
+							"trackSection": "D"
+						},
+						{
+							"vehicleRef": {
+								"vehicleId": "938054066072",
+								"vehicleNumber": "22"
+							},
+							"serviceClasses": [ "CLASS_2" ] ,		
+							"track": "7",
+							"trackSection": "E"
+						}, 	 
+						{
+							"vehicleRef": {
+								"vehicleId": "938054065074",
+								"vehicleNumber": "21"
+							},
+							"serviceClasses": [ "CLASS_2" ] ,		
+							"track": "7",
+							"trackSection": "E"
+						}								
+					]
+				}
+			]
+		},
+		{
+			"objectType": "Arrival",
+			"location": {
+				"code": "urn:uic:stn:8015458",
+				"name": "Köln Hbf"
+			},
+			"plannedTime": "2023-05-18T18:39:00.0+01:00",
+			"carrier": "2480",
+			"significance": "MASTER",
+			"stopId": "8015458_1",
+			"track": "5",
+			"vehicleGroups": [
+				{
+					"service": {
+						"serviceName": "10"
+					},
+					"vehicles": [
+						{
+							"vehicleRef": {
+								"vehicleId": "938054060075",
+								"vehicleNumber": "29"
+							},
+							"serviceClasses": [ "CLASS_1" ] ,		
+							"track": "5",
+							"trackSection": "G"
+						},
+						{
+							"vehicleRef": {
+								"vehicleId": "938054061073",
+								"vehicleNumber": "28"
+							},
+							"serviceClasses": [ "CLASS_1" ] ,		
+							"track": "5",
+							"trackSection": "G"
+						},
+						{
+							"vehicleRef": {
+								"vehicleId": "938054062071",
+								"vehicleNumber": "27"
+							},
+							"serviceClasses": [ "CLASS_2" ] ,		
+							"track": "5",
+							"trackSection": "G"
+						},
+						{
+							"vehicleRef": {
+								"vehicleId": "938054063079",
+								"vehicleNumber": "26"
+							},
+							"serviceClasses": [ "CLASS_2" ] ,		
+							"facilities" : [ "BISTRO" ],
+							"track": "5",
+							"trackSection": "F"
+						},
+						{
+							"vehicleRef": {
+								"vehicleId": "938054068078",
+								"vehicleNumber": "25"
+							},
+							"serviceClasses": [ "CLASS_2" ] ,		
+							"track": "5",
+							"trackSection": "F"
+						},
+						{
+							"vehicleRef": {
+								"vehicleId": "938054067070",
+								"vehicleNumber": "23"
+							},
+							"serviceClasses": [ "CLASS_2" ] ,		
+							"track": "5",
+							"trackSection": "E"
+						},
+						{
+							"vehicleRef": {
+								"vehicleId": "938054066072",
+								"vehicleNumber": "22"
+							},
+							"serviceClasses": [ "CLASS_2" ] ,		
+							"track": "5",
+							"trackSection": "E"
+						}, 	 
+						{
+							"vehicleRef": {
+								"vehicleId": "938054065074",
+								"vehicleNumber": "21"
+							},
+							"serviceClasses": [ "CLASS_2" ] ,		
+							"track": "5",
+							"trackSection": "D"
+						}								
+					]
+				}
+			]
+		},
+		{
+			"objectType": "Departure",
+			"location": {
+				"code": "urn:uic:stn:8015458",
+				"name": "Köln Hbf"
+			},
+			"plannedTime": "2023-05-18T19:40:00.0+01:00",
+			"carrier": "2480",
+			"significance": "MASTER",
+			"stopId": "8015458_1",
+			"track": "5",
+			"vehicleGroups": [
+				{
+					"service": {
+						"serviceName": "10"
+					},
+					"vehicles": [
+						{
+							"vehicleRef": {
+								"vehicleId": "938054060075",
+								"vehicleNumber": "29"
+							},
+							"serviceClasses": [ "CLASS_1" ] ,		
+							"track": "5",
+							"trackSection": "G"
+						},
+						{
+							"vehicleRef": {
+								"vehicleId": "938054061073",
+								"vehicleNumber": "28"
+							},
+							"serviceClasses": [ "CLASS_1" ] ,		
+							"track": "5",
+							"trackSection": "G"
+						},
+						{
+							"vehicleRef": {
+								"vehicleId": "938054062071",
+								"vehicleNumber": "27"
+							},
+							"serviceClasses": [ "CLASS_2" ] ,		
+							"track": "5",
+							"trackSection": "G"
+						},
+						{
+							"vehicleRef": {
+								"vehicleId": "938054063079",
+								"vehicleNumber": "26"
+							},
+							"serviceClasses": [ "CLASS_2" ] ,		
+							"facilities" : [ "BISTRO" ],
+							"track": "5",
+							"trackSection": "F"
+						},
+						{
+							"vehicleRef": {
+								"vehicleId": "938054068078",
+								"vehicleNumber": "25"
+							},
+							"serviceClasses": [ "CLASS_2" ] ,		
+							"track": "5",
+							"trackSection": "F"
+						},
+						{
+							"vehicleRef": {
+								"vehicleId": "938054067070",
+								"vehicleNumber": "23"
+							},
+							"serviceClasses": [ "CLASS_2" ] ,		
+							"track": "5",
+							"trackSection": "E"
+						},
+						{
+							"vehicleRef": {
+								"vehicleId": "938054066072",
+								"vehicleNumber": "22"
+							},
+							"serviceClasses": [ "CLASS_2" ] ,		
+							"track": "5",
+							"trackSection": "E"
+						}, 	 
+						{
+							"vehicleRef": {
+								"vehicleId": "938054065074",
+								"vehicleNumber": "21"
+							},
+							"serviceClasses": [ "CLASS_2" ] ,		
+							"track": "5",
+							"trackSection": "D"
+						}								
+					]
+				}
+			]
+		},
+		{
+			"objectType": "Arrival",
+			"location": {
+				"code": "urn:uic:stn:8015345",
+				"name": "Aachen Hbf"
+			},
+			"plannedTime": "2023-05-18T20:16:00.0+01:00",
+			"carrier": "2480",
+			"significance": "MASTER",
+			"stopId": "8015345_1",
+			"track": "9",
+			"vehicleGroups": [
+				{
+					"service": {
+						"serviceName": "10"
+					},
+					"vehicles": [
+						{
+							"vehicleRef": {
+								"vehicleId": "938054060075",
+								"vehicleNumber": "29"
+							},
+							"serviceClasses": [ "CLASS_1" ] ,		
+							"track": "9",
+							"trackSection": "D"
+						},
+						{
+							"vehicleRef": {
+								"vehicleId": "938054061073",
+								"vehicleNumber": "28"
+							},
+							"serviceClasses": [ "CLASS_1" ] ,		
+							"track": "9",
+							"trackSection": "C"
+						},
+						{
+							"vehicleRef": {
+								"vehicleId": "938054062071",
+								"vehicleNumber": "27"
+							},
+							"serviceClasses": [ "CLASS_2" ] ,		
+							"track": "9",
+							"trackSection": "C"
+						},
+						{
+							"vehicleRef": {
+								"vehicleId": "938054063079",
+								"vehicleNumber": "26"
+							},
+							"serviceClasses": [ "CLASS_2" ] ,		
+							"facilities" : [ "BISTRO" ],
+							"track": "9",
+							"trackSection": "B"
+						},
+						{
+							"vehicleRef": {
+								"vehicleId": "938054068078",
+								"vehicleNumber": "25"
+							},
+							"serviceClasses": [ "CLASS_2" ] ,		
+							"track": "9",
+							"trackSection": "B"
+						},
+						{
+							"vehicleRef": {
+								"vehicleId": "938054067070",
+								"vehicleNumber": "23"
+							},
+							"serviceClasses": [ "CLASS_2" ] ,		
+							"track": "9",
+							"trackSection": "A"
+						},
+						{
+							"vehicleRef": {
+								"vehicleId": "938054066072",
+								"vehicleNumber": "22"
+							},
+							"serviceClasses": [ "CLASS_2" ] ,		
+							"track": "9",
+							"trackSection": "A"
+						}, 	 
+						{
+							"vehicleRef": {
+								"vehicleId": "938054065074",
+								"vehicleNumber": "21"
+							},
+							"serviceClasses": [ "CLASS_2" ] ,		
+							"track": "9",
+							"trackSection": "A"
+						}								
+					]
+				}
+			]
+		},
+		{
+			"objectType": "Departure",
+			"location": {
+				"code": "urn:uic:stn:8015345",
+				"name": "Aachen Hbf"
+			},
+			"plannedTime": "2023-05-18T20:21:00.0+01:00",
+			"carrier": "2480",
+			"significance": "MASTER",
+			"stopId": "8015458_1",
+			"track": "5",
+			"vehicleGroups": [
+				{
+					"service": {
+						"serviceName": "10"
+					},
+					"vehicles": [
+						{
+							"vehicleRef": {
+								"vehicleId": "938054060075",
+								"vehicleNumber": "29"
+							},
+							"serviceClasses": [ "CLASS_1" ] ,		
+							"track": "9",
+							"trackSection": "D"
+						},
+						{
+							"vehicleRef": {
+								"vehicleId": "938054061073",
+								"vehicleNumber": "28"
+							},
+							"serviceClasses": [ "CLASS_1" ] ,		
+							"track": "9",
+							"trackSection": "C"
+						},
+						{
+							"vehicleRef": {
+								"vehicleId": "938054062071",
+								"vehicleNumber": "27"
+							},
+							"serviceClasses": [ "CLASS_2" ] ,		
+							"track": "9",
+							"trackSection": "C"
+						},
+						{
+							"vehicleRef": {
+								"vehicleId": "938054063079",
+								"vehicleNumber": "26"
+							},
+							"serviceClasses": [ "CLASS_2" ] ,		
+							"facilities" : [ "BISTRO" ],
+							"track": "9",
+							"trackSection": "B"
+						},
+						{
+							"vehicleRef": {
+								"vehicleId": "938054068078",
+								"vehicleNumber": "25"
+							},
+							"serviceClasses": [ "CLASS_2" ] ,		
+							"track": "9",
+							"trackSection": "B"
+						},
+						{
+							"vehicleRef": {
+								"vehicleId": "938054067070",
+								"vehicleNumber": "23"
+							},
+							"serviceClasses": [ "CLASS_2" ] ,		
+							"track": "9",
+							"trackSection": "A"
+						},
+						{
+							"vehicleRef": {
+								"vehicleId": "938054066072",
+								"vehicleNumber": "22"
+							},
+							"serviceClasses": [ "CLASS_2" ] ,		
+							"track": "9",
+							"trackSection": "A"
+						}, 	 
+						{
+							"vehicleRef": {
+								"vehicleId": "938054065074",
+								"vehicleNumber": "21"
+							},
+							"serviceClasses": [ "CLASS_2" ] ,		
+							"track": "9",
+							"trackSection": "A"
+						}								
+					]
+				}
+			]
+		},
+		{
+			"objectType": "Arrival",
+			"location": {
+				"code": "urn:uic:stn:8841004",
+				"name": "Liège-Guillemins"
+			},
+			"plannedTime": "2023-05-18T20:44:00.0+01:00",
+			"carrier": "2480",
+			"significance": "FORWARDED",
+			"stopId": "8841004_1",
+			"track": "3"
+		},	
+		{
+			"objectType": "Departure",
+			"location": {
+				"code": "urn:uic:stn:8841004",
+				"name": "Liège-Guillemins"
+			},
+			"plannedTime": "2023-05-18T20:46:00.0+01:00",
+			"carrier": "2480",
+			"significance": "FORWARDED",
+			"stopId": "8841004_1",
+			"track": "3"
+		},
+		{
+			"objectType": "Arrival",
+			"location": {
+				"code": "urn:uic:stn:8812005",
+				"name": "Bruxelles-Nord"
+			},
+			"plannedTime": "2023-05-18T21:26:00.0+01:00",
+			"carrier": "2480",
+			"significance": "FORWARDED",
+			"stopId": "8812005_1",
+			"track": "3"
+		},	
+		{
+			"objectType": "Departure",
+			"location": {
+				"code": "urn:uic:stn8812005",
+				"name": "Bruxelles-Nord"
+			},
+			"plannedTime": "2023-05-18T21:28:00.0+01:00",
+			"carrier": "2480",
+			"significance": "FORWARDED",
+			"stopId": "8841004_1",
+			"track": "4"
+		},	
+		{
+			"objectType": "Arrival",
+			"location": {
+				"code": "urn:uic:stn:8814001",
+				"name": "Bruxelles-Midi"
+			},
+			"plannedTime": "2023-05-18T21:35:00.0+01:00",
+			"carrier": "2480",
+			"significance": "FORWARDED",
+			"stopId": "8814001_1",
+			"track": "9"
+		}				
+		
+	],
+	"facilities": [
+		"RESERVATION_RECOMMENDED"
+	]
+	
+}

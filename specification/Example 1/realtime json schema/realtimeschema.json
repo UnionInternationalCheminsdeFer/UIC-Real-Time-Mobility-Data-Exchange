@@ -1,0 +1,750 @@
+{
+   "$schema": "https://json-schema.org/draft/2019-09/hyper-schema",
+   "$id": "http://uic.org//schemas/passenger/realtimemobilitydata_1_0_0.json",
+   "title": "Real Time Mobility Data",
+   "description": "Real Time Mobility Data",
+   "$ref": "#/definitions/Service",
+   "definitions": {
+
+      "Service": {
+        "type": "object",
+        "properties": {
+          "serviceId": {
+            "description": "unique id of the service for which the data are provided. All updates from this provider will  use the same id. The use of a uuid is recommended",
+            "type": "string",
+            "examples": [
+              "5179f99c-f52d-4b51-a3a7-daa71b69bbe2"
+            ]
+          },
+          "dataDelivery": {
+            "description": "main service refence for this service run. The service reference might  change along the route, the changed service refences are then included in the departiure event for the next part of the route",
+            "$ref": "#/definitions/DataDelivery"
+          },
+          "serviceRef": {
+            "$ref": "#/definitions/ServiceReference"
+          },
+          "replacedServices": {
+            "description": "list of services replaced by this service",
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/ServiceReference"
+            }
+          },
+          "replacingServices": {
+            "description": "list of services replacing this service",
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/ServiceReference"
+            }
+          },
+          "timeTableReference": {
+            "description": "reference to a time table",
+            "$ref": "#/definitions/TimeTableReference"
+          },
+          "events": {
+            "description": "list of events along the service run ordered by time",
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/ServiceEvent"
+            }
+          },
+          "cancelled": {
+            "description": "default false",
+            "type": "boolean",
+            "default": false
+          },
+          "cancellationType": {
+            "$ref": "#/definitions/CancellationType"
+          },
+          "facilities": {
+            "description": "facilities available on the whole routes of the service run. Additional facilities on specific sections are part of the VehicleStop object of the departure of the section",
+            "type": "array",
+            "items": {
+              "description": "OSDM code list",
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "serviceId",
+          "dataDelivery",
+          "serviceRef",
+          "events"
+        ]
+      },
+      "CancellationType": {
+        "description": "details on the cause of cancellation. Either cancelled by  the Carrier by sending the cancel information (CANCELLED_BY_CARRIER) or cancelled as the Carrier did not  send the stop compared to the reference time table (MISSING_FROM_CARRIER) or the service is not any more included  in a new time table update (MISSING_FROM_TIMETABLE) .",
+        "type": "string"
+      },
+      "TimeTableReference": {
+        "type": "object",
+        "properties": {
+          "timeTable": {
+            "description": "name of thetime table",
+            "type": "string"
+          },
+          "version": {
+            "description": "referenced version of the time table. In case of MERITS the date of delivery used in the file name.",
+            "type": "string",
+            "examples": [
+              "2024-07-14"
+            ]
+          }
+        },
+        "required": [
+          "timeTable",
+          "version"
+        ]
+      },
+      "DataDelivery": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "description": "id of the data delivery used for tracking and error reporting",
+            "type": "string",
+            "format": "uuid",
+            "examples": [
+              "149c9b31-9b75-43e7-8677-22c8348cdb66"
+            ]
+          },
+          "provider": {
+            "$ref": "#/definitions/Company"
+          },
+          "creationTime": {
+            "description": "creation date of the data. New data will replace all older data ",
+            "type": "string",
+            "format" : "date-time"
+          },
+          "contributingProviders": {
+            "description": "list of contributing providers in case of consolidated data",
+            "type": "array",
+            "items": [
+              {
+                "$ref": "#/definitions/Company"
+              }
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "provider",
+          "creationTime"
+        ]
+      },
+      "VehicleGroup": {
+        "type": "object",
+        "properties": {
+          "service": {
+            "description": "service number for the vehicle group. This might be different from the main service number",
+            "$ref": "#/definitions/ServiceReference"
+          },
+          "vehicles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/VehicleStop"
+            }
+          }
+        }
+      },
+      "VehicleGroupRef": {
+        "type": "object",
+        "properties": {
+          "service": {
+            "description": "service number for the vehicle group. This might be different from the main service number",
+            "$ref": "#/definitions/ServiceReference"
+          },
+          "vehicleRefs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/VehicleRef"
+            }
+          }
+        }
+      },
+      "VehicleRef": {
+        "type": "object",
+        "properties": {
+          "vehicleId": {
+            "description": "UIC vehicle id or  another code defined as urn",
+            "type": "string",
+            "examples": [
+              "31816650286",
+              "urn:uic:veh:31816650286"
+            ]
+          },
+          "vehicleNumber": {
+            "description": "vehicle number used for customer commmunication in bookings and on platforms. Note: not all verhicles might have a number (e.g. luggage coaches, locomotives)",
+            "type": "string",
+            "examples": [
+              "12"
+            ]
+          }
+        }
+      },
+      "VehicleStop": {
+        "type": "object",
+        "properties": {
+          "vehicleRef": {
+            "$ref": "#/definitions/VehicleRef"
+          },
+          "facilities": {
+            "description": "additional facilities available in the vehicle for the next section",
+            "type": "array",
+            "items": {
+              "description": "OSDM code list",
+              "type": "string"
+            },
+            "examples": [
+              "ALIGHTING_POSSIBLE_30M",
+              "NURSERY_SERVICE"
+            ]
+          },
+          "serviceClasses": {
+            "type": "array",
+            "items": {
+              "description": "OSDM code list",
+              "type": "string"
+            },
+            "examples": [
+              "SECOND_CLASS"
+            ]
+          },
+          "platform": {
+            "type": "string",
+            "examples": [
+              6
+            ]
+          },
+          "platformSection": {
+            "type": "string",
+            "examples": [
+              "C"
+            ]
+          },
+          "track": {
+            "type": "string",
+            "examples": [
+              "13"
+            ]
+          },
+          "trackSection": {
+            "type": "string",
+            "examples": [
+              "C"
+            ]
+          }
+        }
+      },
+      "Location": {
+        "description": "location code: either merits code or from another code list formatted as urn",
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "examples": [
+              "8012345",
+              "urn:uic:stn:8512345",
+              "urn:NL:nationalLocations:8512345"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "examples": [
+              "Amsterdam Centraal",
+              "K�ln Hbf"
+            ]
+          }
+        },
+        "required": [
+          "code"
+        ]
+      },
+      "ServiceReference": {
+        "type": "object",
+        "properties": {
+          "serviceId": {
+            "description": "unique id of the service run in the real time platform",
+            "type": "string",
+            "examples": [
+              "5179f99c-f52d-4b51-a3a7-daa71b69bbe2"
+            ]
+          },
+          "serviceName": {
+            "description": "commercial servide name (in case of trains the train number) used for communication with the customer. Eigther service or line number must be provided",
+            "type": "string",
+            "examples": [
+              "4711"
+            ]
+          },
+          "lineName": {
+            "type": "string",
+            "examples": [
+              "11"
+            ]
+          },
+          "lineServiceID": {
+            "description": "internal service number in case only the line number is used in customer communication",
+            "type": "string",
+            "examples": [
+              "1234511"
+            ]
+          },
+          "serviceBrand": {
+            "description": "main service brand code of urn providing a code from another code list.",
+            "type": "string",
+            "examples": [
+              "51",
+              "urn:uic:sbc:51"
+            ]
+          },
+          "serviceBrandAbreviation": {
+            "type": "string",
+            "examples": [
+              "ICE"
+            ]
+          },
+          "originalPlannedStartDate": {
+            "description": "original planned start date at the first station when the service was planned the first time",
+            "type": "string",
+            "format": "date",
+            "examples": [
+              "2023-07-16"
+            ]
+          },
+          "plannedStartDate": {
+            "description": "currently planned start date at the first station",
+            "type": "string",
+            "format": "date",
+            "examples": [
+              "2023-07-16"
+            ]
+          },
+          "operationalServiceIds": {
+            "description": "operational service id of the IM",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "infrastructureManager": {
+                  "$ref": "#/definitions/Company"
+                },
+                "operationalServiceId": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "infrastructureManager",
+                "operationalServiceId"
+              ]
+            }
+          },
+          "carrierServiceIds": {
+            "description": "service ids of the Carriers involved (RU)",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "carrier": {
+                  "$ref": "#/definitions/Company"
+                },
+                "carrierServiceId": {
+                  "type": "string",
+                  "examples": [
+                    "eed6c119-722b-4882-81a1-a7c60bd2d163"
+                  ]
+                }
+              },
+              "required": [
+                "carrier",
+                "carrierServiceId"
+              ]
+            }
+          }
+        },
+        "required": [
+          "serviceName"
+        ]
+      },
+      "Departure": {
+        "allOf": [
+          {
+            "$ref": "#/definitions/ServiceEvent"
+          },
+          {
+            "$ref": "#/definitions/TimeTabledServiceEvent"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "carrier": {
+                "$ref": "#/definitions/Company"
+              },
+              "significance": {
+                "$ref": "#/definitions/Significance"
+              },
+              "stopId": {
+                "description": "uniqueId of the stop to distinguish multiple stops at the same station",
+                "type": "string",
+                "examples": [
+                  "2f31d510-5944-4280-a90b-32ec0ba86965"
+                ]
+              },
+              "boarding": {
+                "description": "indicator for restricted boarding",
+                "type": "boolean",
+                "default": true
+              },
+              "platform": {
+                "type": "string",
+                "examples": [
+                  "13B"
+                ]
+              },
+              "track": {
+                "type": "string",
+                "examples": [
+                  "13B"
+                ]
+              },
+              "vehicleGroups": {
+                "description": "groups of vehicles. Multiple groups can be used to describe connected service parts with separate service names.",
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/VehicleGroup"
+                }
+              }
+            },
+            "required": [
+              "location",
+              "carrier",
+              "significance",
+              "stopId",
+              "plannedTime"
+            ]
+          }
+        ]
+      },
+      "Arrival": {
+        "allOf": [
+          {
+            "$ref": "#/definitions/ServiceEvent"
+          },
+          {
+            "$ref": "#/definitions/TimeTabledServiceEvent"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "carrier": {
+                "$ref": "#/definitions/Company"
+              },
+              "stopId": {
+                "description": "uniqueId of the stop to distinguish multiple stops at the same station",
+                "type": "string",
+                "examples": [
+                  "2f31d510-5944-4280-a90b-32ec0ba86965"
+                ]
+              },
+              "significance": {
+                "$ref": "#/definitions/Significance"
+              },
+              "alighting": {
+                "description": "indicator for restricted aloghting. true = alighting allowed",
+                "type": "boolean",
+                "default": true
+              },
+              "vehicleGroups": {
+                "description": "groups of vehicles. Multiple groups can be used to describe connected service parts with separate service names.",
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/VehicleGroup"
+                }
+              },
+              "platform": {
+                "type": "string",
+                "examples": [
+                  "13B"
+                ]
+              },
+              "track": {
+                "type": "string",
+                "examples": [
+                  "13B"
+                ]
+              },
+              "connections": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Connection"
+                }
+              }
+            },
+            "required": [
+              "location",
+              "carrier",
+              "significance",
+              "plannedTime",
+              "stopId"
+            ]
+          }
+        ]
+      },
+      "PassThrough": {
+        "allOf": [
+          {
+            "$ref": "#/definitions/ServiceEvent"
+          },
+          {
+            "$ref": "#/definitions/TimeTabledServiceEvent"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "format": "x-extensible-enum - STATION - IM_HAND_OVER - IM_POINT",
+                "examples": [
+                  "STATION"
+                ]
+              },
+              "fromIM": {
+                "$ref": "#/definitions/Company"
+              },
+              "toIM": {
+                "description": "handover from this infratstucture manager",
+                "$ref": "#/definitions/Company"
+              }
+            },
+            "required": [
+              "location",
+              "type"
+            ]
+          }
+        ]
+      },
+      "DelayReason": {
+        "description": "reason code for delays TAF codes of uic codes",
+        "type": "string",
+        "examples": [
+          "urn:x-taf:25",
+          "WAITING_FOR_DELAYED_PASSENGERS"
+        ]
+      },
+      "Significance": {
+        "description": "indication whether the provider is responsible for these data or whether he has forwarded these data for convenience only. In the later case the platform might replace these with data from the carier when available.",
+        "type": "string",
+        "enum": [
+          "FORWARDED",
+          "MASTER"
+        ]
+      },
+      "DelayStatus": {
+        "type": "string",
+        "enum": [
+          "UNKNOWN",
+          "CANCELLED",
+          "DELAYED",
+          "ON_SCHEDULE"
+        ]
+      },
+      "ConnectionStatus": {
+        "type": "string",
+        "enum": [
+          "LOST",
+          "KEPT",
+          "AT_RISK"
+        ]
+      },
+      "Connection": {
+        "type": "object",
+        "properties": {
+          "serviceRef": {
+            "$ref": "#/definitions/ServiceReference"
+          },
+          "status": {
+            "$ref": "#/definitions/ConnectionStatus"
+          }
+        },
+        "required": [
+          "serviceRef",
+          "status"
+        ]
+      },
+      "Company": {
+        "description": "company code. TAP-TSI code in case of rail. Code list to be qualified by urn.",
+        "type": "string",
+        "examples": [
+          "2480",
+          "1184",
+          "84"
+        ]
+      },
+      "Country": {
+        "description": "ISO 3166 2A country code.",
+        "type": "string",
+        "examples": [
+          "DE",
+          "NL"
+        ]
+      },
+      "ServiceEvent": {
+        "description": "Event on a service run. This could eigther be a departure, arrival, a pass through or a geo-tracking.",
+        "type": "object",
+        "additionalProperties": false,
+        "discriminator": {
+          "propertyName": "objectType"
+        },
+        "properties": {
+          "objectType": {
+            "description": "Attribute is used as discriminator for inheritance between data types.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "objectType"
+        ]
+      },
+      "GeoTracking": {
+        "allOf": [
+          {
+            "$ref": "#/definitions/ServiceEvent"
+          },
+          {
+            "type": "object",
+            "description": "Geo-Tracking-Event on a service run. Documents the position of a service (or vehicle group of a service) at a time.",
+            "properties": {
+              "time": {
+                "description": "time when the service was at the provided position",
+                "type": "string",
+                "format": "date-time",
+                "examples": [
+                  "2024-07-14T19:43:37+01:00"
+                ]
+              },
+              "position": {
+                "$ref": "#/definitions/GeoPosition"
+              },
+              "vehicleGroupRefs": {
+                "description": "groups of vehicles where this geo-position applies",
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/VehicleGroupRef"
+                }
+              }
+            },
+            "required": [
+              "objectType",
+              "time",
+              "position"
+            ]
+          }
+        ]
+      },
+      "TimeTabledServiceEvent": {
+        "type": "object",
+        "description": "Event on a service run. This could eigther be a departure, arrival or a pass through.",
+        "properties": {
+          "location": {
+            "$ref": "#/definitions/Location"
+          },
+          "plannedTime": {
+            "description": "planned time according to the data provider of the event",
+            "type": "string",
+            "format": "date-time",
+            "examples": [
+              "2024-07-14T19:43:37+01:00"
+            ]
+          },
+          "timeTabledTime": {
+            "description": "planned time according to the referenced time table",
+            "type": "string",
+            "format": "date-time",
+            "examples": [
+              "2024-07-14T19:43:37+01:00"
+            ]
+          },
+          "consolidatedEstimatedTime": {
+            "description": "estimation consolidated by the exchange platform to be consistent across multiple involved carriers",
+            "type": "string",
+            "format": "date-time",
+            "examples": [
+              "2024-07-14T19:43:37+01:00"
+            ]
+          },
+          "estimatedTime": {
+            "type": "string",
+            "format": "date-time",
+            "examples": [
+              "2024-07-14T19:43:47+01:00"
+            ]
+          },
+          "actualTime": {
+            "description": "Time when the arrival actually occured. Provided after arrival only.",
+            "type": "string",
+            "format": "date-time",
+            "examples": [
+              "2024-07-14T19:43:46+01:00"
+            ]
+          },
+          "status": {
+            "$ref": "#/definitions/DelayStatus"
+          },
+          "cancelled": {
+            "description": "default false",
+            "type": "boolean",
+            "default": false
+          },
+          "cancellationType": {
+            "$ref": "#/definitions/CancellationType"
+          },
+          "reasonForDelay": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/DelayReason"
+            }
+          }
+        },
+        "required": [
+          "objectType",
+          "location",
+          "plannedTime"
+        ]
+      },
+      "GeoPosition": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "WGS84 coordinates position. Provided by OJP.",
+        "required": [
+          "longitude",
+          "latitude"
+        ],
+        "properties": {
+          "longitude": {
+            "$ref": "#/definitions/Longitude"
+          },
+          "latitude": {
+            "$ref": "#/definitions/Latitude"
+          }
+        }
+      },
+      "Longitude": {
+        "type": "number",
+        "format": "double",
+        "description": "Longitude from Greenwich Meridian. -180 (West) to +180 (East). Decimal degrees. eg 2.356.",
+        "minimum": -180,
+        "maximum": 180,
+        "nullable": false,
+        "example": 8.54021
+      },
+      "Latitude": {
+        "type": "number",
+        "format": "double",
+        "description": "Latitude from equator. -90 (South) to +90 (North). Decimal degrees. e.g. 56.356.",
+        "minimum": -90,
+        "maximum": 90,
+        "nullable": false,
+        "example": 47.37818
+      }
+    }
+  
+}

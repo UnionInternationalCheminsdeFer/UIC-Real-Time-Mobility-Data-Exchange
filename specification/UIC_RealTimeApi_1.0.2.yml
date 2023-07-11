@@ -298,7 +298,7 @@ paths:
   /serviceRuns/{serviceRunId}:
     get:
       tags:
-        - Services
+        - ServiceRuns
       summary: returns a service run by service run id
       description: returns a service updated in the service update received via the web hook
       operationId: getServiceRun
@@ -342,13 +342,13 @@ paths:
               schema: 
                 $ref: "#/components/schemas/ErrorDescription"
 
-  /services/get:
+  /serviceRuns/get:
     post:
       tags:
         - ServiceRuns
-      summary: returns services by service ids 
-      description: returns the latest version of the serivces 
-      operationId: getServices
+      summary: returns service runs by service run ids 
+      description: returns the latest version of the serivce runs 
+      operationId: getServiceRuns
       requestBody:
         description: IDs of the service runs to get
         content:
@@ -391,8 +391,8 @@ paths:
     post:        
       tags:
         - ServiceRuns
-      summary: finds services by the service name, travel date, country, ... 
-      description: finds services by the service name, travel datee, country, ... 
+      summary: finds service runs by the service name, travel date, country, ... 
+      description: finds service runs by the service name, travel datee, country, ... 
       operationId: searchServiceRuns
       requestBody:
         description: search parameter to search for service runs
@@ -402,7 +402,7 @@ paths:
               $ref: "#/components/schemas/ServiceRunSearchParams"
       responses:
         "200":
-          description: the services for which the id is provided
+          description: the service runs for which the id is provided
           content:
             application/json; profile="https://uic.org/rtd/2.0"::
               schema:
@@ -538,7 +538,7 @@ components:
           format: uuid  
           examples: 
             - "3fd02c20-c53a-4eee-80b4-0fbb8de3ae98"
-        ServiceRunNotifications:
+        serviceRunNotifications:
           type: array
           items:
             $ref: "#/components/schemas/ServiceRunNotification"
@@ -548,7 +548,8 @@ components:
           $ref: "#/components/schemas/DateTime"     
       required:
         - id     
-        - services
+        - serviceRunNotifications
+        - timestamp
 
     ServiceRunNotification:
       description: Notification on a service run change

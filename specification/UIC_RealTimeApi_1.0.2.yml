@@ -6,17 +6,17 @@ info:
 
 
 webhooks:
-  serviceEvent:
+  serviceRunEvent:
     post:
-      operationId: serviceUpdateHook
+      operationId: serviceRunUpdateHook
       parameters:
          - $ref: "#/components/parameters/idempotencyKey"
       requestBody:
-        description: Information about a service event (new service, delays, ..). The request will be repeated until it is confirmed. The repetition times will be doubled with each retry. Repetition ends after 1 day. The service confirms the acceptance of the data as soon as the data have been stored. Retrieving the referenced service is not included in the confirmation.
+        description: Information about a service run event (new service, delays, ..). The request will be repeated until it is confirmed. The repetition times will be doubled with each retry. Repetition ends after 1 day. The service confirms the acceptance of the data as soon as the data have been stored. Retrieving the referenced service is not included in the confirmation.
         content:
           application/json; profile="https://uic.org/rtd/2.0":
             schema:
-              $ref: "#/components/schemas/ServiceUpdate"
+              $ref: "#/components/schemas/ServiceRunUpdate"
       responses:
         "200":
           description: Return a 200 status to indicate that the data was received successfully
@@ -40,21 +40,21 @@ webhooks:
           description: unavailable    
       
 paths:
-  /service:
+  /serviceRun:
     post:
       tags:
-        - Service
-      summary: creates or replaces a service
-      description: Creates a new service or replaces an existing one. The sender is responsible to repeat the request in case the api service in not available. The idempotency key indicates a retry of the same request. 
+        - ServiceRun
+      summary: creates or replaces a service run
+      description: Creates a new service run or replaces an existing one. The sender is responsible to repeat the request in case the api service in not available. The idempotency key indicates a retry of the same request. 
       operationId: postService
       parameters:
          - $ref: "#/components/parameters/idempotencyKey"
       requestBody:
-        description: add or update a service
+        description: add or update a service run
         content:
           application/json; profile="https://uic.org/rtd/2.0":
             schema:
-              $ref: "#/components/schemas/Service"
+              $ref: "#/components/schemas/ServiceRun"
       responses:
         "200":
           description: service created or updated
@@ -295,28 +295,28 @@ paths:
               schema: 
                 $ref: "#/components/schemas/ErrorDescription"
 
-  /services/{serviceId}:
+  /serviceRuns/{serviceRunId}:
     get:
       tags:
         - Services
-      summary: returns a service by service id
+      summary: returns a service run by service run id
       description: returns a service updated in the service update received via the web hook
-      operationId: getService
+      operationId: getServiceRun
       parameters:
         - in: path
-          name: serviceId
+          name: serviceRunId
           schema:
             type: string
             format: uuid
           required: true
-          description: ID of the service to get.
+          description: ID of the service run to get.
       responses:
         "200":
-          description: the requested service
+          description: the requested service run
           content:
             application/json; profile="https://uic.org/rtd/2.0"::
               schema:
-                $ref: "#/components/schemas/Service"
+                $ref: "#/components/schemas/ServiceRun"
         "400":
           description: bad input parameter
         "401":
@@ -345,23 +345,23 @@ paths:
   /services/get:
     post:
       tags:
-        - Services
+        - ServiceRuns
       summary: returns services by service ids 
       description: returns the latest version of the serivces 
       operationId: getServices
       requestBody:
-        description: IDs of the services to get
+        description: IDs of the service runs to get
         content:
           application/json; profile="https://uic.org/rtd/2.0":
             schema:
-              $ref: "#/components/schemas/ServiceIds"
+              $ref: "#/components/schemas/ServiceRunIds"
       responses:
         "200":
-          description: the requested service
+          description: the requested service run
           content:
              application/json; profile="https://uic.org/rtd/2.0":
               schema:
-                $ref: "#/components/schemas/Services"
+                $ref: "#/components/schemas/ServiceRuns"
         "400":
           description: bad input parameter
         "401":
@@ -387,26 +387,26 @@ paths:
               schema: 
                 $ref: "#/components/schemas/ErrorDescription"
 
-  /services/search:
+  /serviceRuns/search:
     post:        
       tags:
-        - Services
+        - ServiceRuns
       summary: finds services by the service name, travel date, country, ... 
       description: finds services by the service name, travel datee, country, ... 
-      operationId: searchServices
+      operationId: searchServiceRuns
       requestBody:
-        description: search parameter to search for services
+        description: search parameter to search for service runs
         content:
           application/json; profile="https://uic.org/rtd/2.0":
             schema:
-              $ref: "#/components/schemas/ServiceSearchParams"
+              $ref: "#/components/schemas/ServiceRunSearchParams"
       responses:
         "200":
           description: the services for which the id is provided
           content:
             application/json; profile="https://uic.org/rtd/2.0"::
               schema:
-                $ref: "#/components/schemas/Services"
+                $ref: "#/components/schemas/ServiceRuns"
         "400":
           description: bad request
           content:
@@ -516,10 +516,10 @@ components:
         - time
         - severity
 
-    ServiceIds:
-      description: list of serviceIds
+    ServiceRunIds:
+      description: list of service run ids
       properties:
-        serviceIds:
+        serviceRunIds:
           type: array
           items:
             type: string
@@ -527,9 +527,9 @@ components:
           minitems: 1
           maxitems: 100
       required: 
-        - serviceIds    
+        - ServiceRunIds    
 
-    ServiceUpdate:
+    ServiceRunUpdate:
       description: information on an event that has created or altered a service
       type: object
       properties:
@@ -538,10 +538,10 @@ components:
           format: uuid  
           examples: 
             - "3fd02c20-c53a-4eee-80b4-0fbb8de3ae98"
-        serviceNotifications:
+        ServiceRunNotifications:
           type: array
           items:
-            $ref: "#/components/schemas/ServiceNotification"
+            $ref: "#/components/schemas/ServiceRunNotification"
           minitems: 1
           maxitems: 100
         timestamp:
@@ -550,8 +550,8 @@ components:
         - id     
         - services
 
-    ServiceNotification:
-      description: Notification on a service change
+    ServiceRunNotification:
+      description: Notification on a service run change
       type: object
       properties:
         eventType:
@@ -573,8 +573,8 @@ components:
               - NEW_GEO_TRACKING
               - PLATFORM_CHANGE
               - CONNECTION_CHANGE
-        serviceId:  
-          description: id of the service changes
+        serviceRunId:  
+          description: id of the service run changed
           type: string
           format: uuid
           examples: 
@@ -584,16 +584,16 @@ components:
           $ref: "#/components/schemas/DateTime"      
       required:
           - eventType
-          - serviceId
+          - serviceRunId
 
-    Services:
+    ServiceRuns:
       type: array
       items:
-        $ref: "#/components/schemas/Service"
+        $ref: "#/components/schemas/ServiceRun"
       minitems: 1
       maxitems: 100
         
-    ServiceSearchParams:
+    ServiceRunSearchParams:
       type: object
       properties:    
         serviceName:
@@ -621,7 +621,7 @@ components:
           description: a carrier involved in the service
           $ref: "#/components/schemas/Company"
         
-    Service:
+    ServiceRun:
       type: object
       properties:
         dataDelivery:
@@ -630,18 +630,18 @@ components:
             change along the route, the changed service refences are then included
             in the departiure event for the next part of the route
           $ref: "#/components/schemas/DataDelivery"
-        serviceRef:
-          $ref: "#/components/schemas/ServiceReference"
-        replacedServices:
+        serviceRunRef:
+          $ref: "#/components/schemas/ServiceRunReference"
+        replacedServiceRuns:
           description: list of services replaced by this service
           type: array
           items:
-            $ref: "#/components/schemas/ServiceReference"
+            $ref: "#/components/schemas/ServiceRunReference"
         replacingServices:
           description: list of services replacing this service
           type: array
           items:
-            $ref: "#/components/schemas/ServiceReference"       
+            $ref: "#/components/schemas/ServiceRunReference"       
         timeTableReference:
            description: reference to a time table
            $ref: "#/components/schemas/TimeTableReference"     
@@ -649,7 +649,7 @@ components:
           description: list of events along the service run ordered by time
           type: array
           items:          
-             $ref: "#/components/schemas/ServiceEvent"
+             $ref: "#/components/schemas/ServiceRunEvent"
         cancelled:
           description: default false
           type: boolean
@@ -668,9 +668,9 @@ components:
             - "ALIGHTING_POSSIBLE_30M"
             - "NURSERY_SERVICE"          
       required:
-        - serviceId
+        - serviceRunId
         - dataDelivery
-        - serviceRef
+        - serviceRunRef
         - events
         
     CancellationType:
@@ -734,10 +734,10 @@ components:
     VehicleGroup:
       type: object
       properties:
-        service:
+        serviceRunRef:
           description: >- 
                service number for the vehicle group. This might be different from the main service number
-          $ref: "#/components/schemas/ServiceReference"
+          $ref: "#/components/schemas/ServiceRunReference"
       
         vehicles:
           type: array
@@ -747,10 +747,10 @@ components:
     VehicleGroupRef:
        type: object
        properties:
-         service:
+         serviceRunRef:
            description: >- 
                 service number for the vehicle group. This might be different from the main service number
-           $ref: "#/components/schemas/ServiceReference"
+           $ref: "#/components/schemas/ServiceRunReference"
        
          vehicleRefs:
            type: array
@@ -832,10 +832,10 @@ components:
       required:
         - code
     
-    ServiceReference:
+    ServiceRunReference:
       type: object
       properties:
-        serviceId:
+        serviceRunId:
           description: unique id of the service run in the real time platform
           type: string
           examples: 
@@ -852,51 +852,27 @@ components:
           type: string
           examples:
             - "11"
-        lineServiceID:
+        lineserviceRunId:
           description: >-
             internal service number in case only the line number is used in
             customer communication
           type: string
           examples:
             - "1234511"
-        serviceBrand:
-          description: >-
-            main service brand code of urn providing a code from another code
-            list.
-          type: string
-          examples:
-            - "51"
-            - "urn:uic:sbc:51"
-        serviceBrandAbreviation:
-          type: string
-          examples:
-            - "ICE"
-        additionalServiceBrands:
-          description: additional service brands in case the service is maketed under different brands
+        serviceBrands:
+          description: service brands in case the service is maketed under different brands
           type: array
           items:
-              type: object
-              properties:
-                serviceBrand:
-                   description: >-
-                     service brand code of urn providing a code from another code list.
-                   type: string
-                   examples:
-                     - "51"
-                     - "urn:uic:sbc:51"
-                serviceBrandAbreviation:
-                   type: string
-                   examples:
-                     - "ICE"
+             $ref: "#/components/schemas/ServiceBrand"   
                
         timeTableReferences:
           description: >-
             references of this service to a technical service id used in a time table
           type: array
           items:
-            $ref: "#/components/schemas/TimeTableServiceId"    
+            $ref: "#/components/schemas/TimeTableserviceRunId"    
 
-        providerServiceIds:
+        providerServiceRunIds:
           description: service ids of the data providers for this service
           type: array
           items:
@@ -904,20 +880,34 @@ components:
             properties:
               provider:
                 $ref: "#/components/schemas/Company"
-              serviceId:
+              serviceRunId:
                 type: string
             required:
               - provider
-              - serviceId
+              - serviceRunId
           examples:
               - provider: "0080"
-                serviceId: "43b65be1-dce9-42a3-b4df-9b8153129eae" 
+                serviceRunId: "43b65be1-dce9-42a3-b4df-9b8153129eae" 
            
       required:
         - serviceName
     
+    ServiceBrand:
+      description: >-
+         service brand code of urn providing a code from another code list.
+      type: object
+      properties:
+        code:
+          type: string
+          examples:
+              - "51"
+              - "urn:uic:sbc:51"
+        abbreviation:
+          type: string
+          examples:
+            - "ICE"    
     
-    TimeTableServiceId:
+    TimeTableserviceRunId:
        type: object
        properties:
           timeTable:
@@ -931,8 +921,8 @@ components:
     
     Departure:
       allOf:
-        - $ref: '#/components/schemas/ServiceEvent'
-        - $ref: '#/components/schemas/TimeTabledServiceEvent'
+        - $ref: '#/components/schemas/ServiceRunEvent'
+        - $ref: '#/components/schemas/TimeTabledServiceRunEvent'
         - type: object    
           properties:
               carrier:
@@ -982,8 +972,8 @@ components:
         
     Arrival:
       allOf:
-        - $ref: '#/components/schemas/ServiceEvent'
-        - $ref: '#/components/schemas/TimeTabledServiceEvent'
+        - $ref: '#/components/schemas/ServiceRunEvent'
+        - $ref: '#/components/schemas/TimeTabledServiceRunEvent'
         - type: object    
           properties:   
               carrier:
@@ -1025,8 +1015,8 @@ components:
         
     PassThrough:
       allOf:
-        - $ref: '#/components/schemas/ServiceEvent'
-        - $ref: '#/components/schemas/TimeTabledServiceEvent'
+        - $ref: '#/components/schemas/ServiceRunEvent'
+        - $ref: '#/components/schemas/TimeTabledServiceRunEvent'
         - type: object
           properties:       
               type:
@@ -1089,7 +1079,7 @@ components:
       type: object
       properties:
         serviceRef:
-          $ref: "#/components/schemas/ServiceReference"
+          $ref: "#/components/schemas/ServiceRunReference"
         status:
           $ref: "#/components/schemas/ConnectionStatus"
       required:
@@ -1271,7 +1261,7 @@ components:
       items:
         $ref: "#/components/schemas/Country"
       
-    ServiceEvent:
+    ServiceRunEvent:
       description: Event on a service run. This could eigther be a departure, arrival, a pass through or a geo-tracking.
       type: object
       additionalProperties: false
@@ -1286,7 +1276,7 @@ components:
       
     GeoTracking:
       allOf:
-        - $ref: "#/components/schemas/ServiceEvent"
+        - $ref: "#/components/schemas/ServiceRunEvent"
         - type: object
           description: >- 
                Geo-Tracking-Event on a service run. Documents the position of a service (or vehicle group of a service) at a time.
@@ -1309,7 +1299,7 @@ components:
               - time
               - position
       
-    TimeTabledServiceEvent:
+    TimeTabledServiceRunEvent:
           type: object        
           description: >-
              Event on a service run. This could eigther be a departure, arrival or a pass through.

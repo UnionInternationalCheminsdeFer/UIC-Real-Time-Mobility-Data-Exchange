@@ -951,11 +951,11 @@ components:
               occupancy:
                  type: string
                  format: x-extensible-enum
-                   - LOW
-                   - MEDIUM
-                   - HIGH
-                   - FULL
-                   - NO_MORE_PASSENGERS
+                   - EMPTY
+                   - MANY_SEATS_AVAILABLE
+                   - FEW_SEATS_AVAILABLE
+                   - STANDING_ROOM_ONLY
+                   - NOT_ACCEPTING_PASSENGERS
               congestion:
                  description: e.g. stuck in traffic jam, no delay estimation available
                  type: boolean

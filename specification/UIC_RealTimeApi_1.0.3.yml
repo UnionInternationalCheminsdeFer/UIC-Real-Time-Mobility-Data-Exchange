@@ -760,6 +760,8 @@ components:
             
     VehicleRef:
       type: object
+      required:
+        - vehicleNumber
       properties:
         vehicleId:
           description: UIC vehicle id or  another code defined as urn
@@ -778,6 +780,8 @@ components:
 
     VehicleStop:
       type: object
+      required:
+        - vehicleRef
       properties:
         vehicleRef:
           $ref: "#/components/schemas/VehicleRef"

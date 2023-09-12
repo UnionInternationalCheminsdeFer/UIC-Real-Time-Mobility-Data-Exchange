@@ -775,15 +775,6 @@ components:
           type: string
           examples:
             - "12"      
-        vehicleStatus:
-          description: >-
-             pption to mark a coach as closed or missing
-          type: string
-          format: x-extensible-enum
-             - USABLE
-             - MISSING
-             - CLOSED
-          default: USABLE   
 
     VehicleStop:
       type: object
@@ -822,6 +813,15 @@ components:
             type: string
             examples:
               - "C"
+        vehicleStatus:
+          description: >-
+             option to mark a coach as closed or missing
+          type: string
+          format: x-extensible-enum
+             - USABLE
+             - MISSING
+             - CLOSED
+          default: USABLE                 
     
     Location:
       description: >-

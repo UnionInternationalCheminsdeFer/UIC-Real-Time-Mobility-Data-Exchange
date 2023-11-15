@@ -748,6 +748,9 @@ components:
     VehicleGroupRef:
        type: object
        properties:
+         id:
+           description: id of the vehicle group at least unique within the service run accross muptiple arrivals and departures
+           type: string
          serviceRunRef:
            description: >- 
                 service number for the vehicle group. This might be different from the main service number

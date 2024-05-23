@@ -1110,9 +1110,10 @@ components:
         company code. TAP-TSI code in case of rail. Code list to be qualified by urn.
       type: string
       examples:
-       - 2480
-       - 1184
-       - 0084
+       - "urn:uic:rics:2480"
+       - "2480"
+       - "1184"
+       - "0084"
        
     Country:
       description: >-

@@ -858,7 +858,7 @@ components:
           type: string
           examples:
             - "Amsterdam Centraal"
-            - "Köln Hbf"
+            - "KÃ¶ln Hbf"
         country:
           $ref: "#/components/schemas/Country"               
       required:
@@ -1295,7 +1295,7 @@ components:
           type: string
           format: x-extensible-enum
             - INCLUDE // selects services where one of the specified carriers serve some part of the service. 
-            - EXCLUDE  // selects services where all of the specified companies are NOT the carrier on some part of the service
+            - EXCLUDE // excludes services where all of the specified companies are NOT the carrier on some part of the service
         countries:
           description: countries to be filtered
           type: array
@@ -1305,7 +1305,7 @@ components:
           type: string
           format: x-extensible-enum
             - INCLUDE // select services in case one of these countries is part of the route of the service 
-            - EXCLUDE  // selects services in case the service is run in these countries only       
+            - EXCLUDE  // excludes services in case the service is run exclusively in these countries      
         countryBorderCrossings:
           description: applies in case the service is crossing the border between the specified countries in one of the border crossings
           $ref: "#/components/schemas/CountryBorderCrossings"

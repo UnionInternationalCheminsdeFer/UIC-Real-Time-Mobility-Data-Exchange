@@ -1,6 +1,6 @@
 openapi: 3.1.0                                     
 info:
-  title: UIC 90918-X
+  title: UIC 90918-11
   version: 2.0.0
   description: Specifications for the UIC Real Time API.
 
@@ -40,7 +40,7 @@ webhooks:
           description: unavailable    
       
 paths:
-  /servicerun:
+  /serviceruns:
     post:
       tags:
         - ServiceRun
@@ -99,7 +99,7 @@ paths:
         "200":
           description: list of subscriptions made by the sender
           content:
-            application/json; profile="https://uic.org/rtd/2.0"::
+            application/json; profile="https://uic.org/rtd/2.0":
               schema:
                 $ref: "#/components/schemas/SubscriptionInfos"
         "400":
@@ -252,7 +252,7 @@ paths:
       requestBody:
         description: request for subscription
         content:
-          application/json; profile="https://uic.org/rtd/2.0"::
+          application/json; profile="https://uic.org/rtd/2.0":
             schema:
               $ref: "#/components/schemas/SubscriptionPatch"          
       responses:
@@ -312,7 +312,7 @@ paths:
         "200":
           description: the requested service run
           content:
-            application/json; profile="https://uic.org/rtd/2.0"::
+            application/json; profile="https://uic.org/rtd/2.0":
               schema:
                 $ref: "#/components/schemas/ServiceRun"
         "400":
@@ -402,7 +402,7 @@ paths:
         "200":
           description: the service runs for which the id is provided
           content:
-            application/json; profile="https://uic.org/rtd/2.0"::
+            application/json; profile="https://uic.org/rtd/2.0":
               schema:
                 $ref: "#/components/schemas/ServiceRuns"
         "400":
@@ -681,7 +681,6 @@ components:
             - "ALIGHTING_POSSIBLE_30M"
             - "NURSERY_SERVICE"          
       required:
-        - serviceRunId
         - dataDelivery
         - serviceRunRef
         - events
@@ -922,6 +921,7 @@ components:
                 serviceRunId: "43b65be1-dce9-42a3-b4df-9b8153129eae" 
            
       required:
+        - serviceRunId
         - serviceName
     
     ServiceBrand:
@@ -1127,9 +1127,8 @@ components:
       type: string
       examples:
        - "urn:uic:rics:2480"
-       - "2480"
-       - "1184"
-       - "0084"
+       - "urn:uic:rics:1184"
+       - "urn:uic:rics:0084"
        
     Country:
       description: >-

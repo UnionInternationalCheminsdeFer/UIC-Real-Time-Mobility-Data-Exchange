@@ -43,7 +43,7 @@ paths:
   /serviceruns:
     post:
       tags:
-        - ServiceRun
+        - ServiceRuns
       summary: creates or replaces a service run
       description: Creates a new service run or replaces an existing one. The sender is responsible to repeat the request in case the api service in not available. The idempotency key indicates a retry of the same request. 
       operationId: postService
@@ -464,6 +464,144 @@ components:
         - "99a28fde-b08b-450f-8691-38a5d2faa7b8"
       
   schemas:
+        
+    Arrival:
+      allOf:
+        - $ref: '#/components/schemas/ServiceRunEvent'
+        - $ref: '#/components/schemas/TimeTabledServiceRunEvent'
+        - type: object    
+          properties:   
+              carrier:
+                 $ref: "#/components/schemas/Company"
+              stopId:
+                 description: uniqueId of the stop to distinguish multiple stops at the same station
+                 type: string
+                 examples:
+                   - "2f31d510-5944-4280-a90b-32ec0ba86965"          
+              significance:
+                $ref: "#/components/schemas/Significance"
+              alighting:
+                 description: indicator for restricted alighting. true = alighting allowed
+                 type: boolean
+                 default: true                
+              vehicleGroups:
+                description: groups of vehicles. Multiple groups can be used to describe connected service parts with separate service names.
+                type: array
+                items:
+                  $ref: "#/components/schemas/VehicleGroup"
+              platform:
+                type: string
+                examples:
+                 - 13B
+              track:
+                type: string
+                examples:
+                 - "13B"
+              connections:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Connection"
+          required:
+             - location 
+             - carrier
+             - significance
+             - plannedTime
+
+    CancellationType:
+       description: >-
+             details on the cause of cancellation. Either cancelled by 
+             the Carrier by sending the cancel information (CANCELLED_BY_CARRIER) or cancelled as the Carrier did not 
+             send the stop compared to the reference time table (MISSING_FROM_CARRIER) or the service is not any more included 
+             in a new time table update (MISSING_FROM_TIMETABLE) .
+       type: string
+       format: x-extensible-enum
+             - MISSING_FROM_CARRIER
+             - CANCELLED_BY_CARRIER  
+             - MISSING_FROM_TIMETABLE
+
+
+    DelayStatus:
+      type: string
+      enum:
+        - UNKNOWN
+        - CANCELLED
+        - DELAYED
+        - ON_SCHEDULE
+      
+    ConnectionStatus:
+      type: string
+      enum:
+        - LOST
+        - KEPT
+        - AT_RISK
+      
+    Connection:
+      type: object
+      properties:
+        serviceRef:
+          $ref: "#/components/schemas/ServiceRunReference"
+        status:
+          $ref: "#/components/schemas/ConnectionStatus"
+      required:
+        - serviceRef
+        - status
+    
+    
+    Company:
+      description: >-
+        company code. TAP-TSI code in case of rail. Code list to be qualified by urn.
+      type: string
+      examples:
+       - "urn:uic:rics:2480"
+       - "urn:uic:rics:1184"
+       - "urn:uic:rics:0084"
+       
+    Country:
+      description: >-
+        ISO 3166 2A country code.
+      type: string
+      pattern: "^[A-Z]{2}$"
+      examples:
+       - DE
+       - NL      
+
+    CountryBorderCrossing:
+      description: crossing between two countries
+      type: array
+      minItems: 2
+      maxItems: 2
+      items:
+        $ref: "#/components/schemas/Country"
+
+    CountryBorderCrossings:
+      type: array
+      description: List of country code pairs for border crossings.
+      items:
+        $ref: "#/components/schemas/CountryBorderCrossing"
+
+    DataDelivery:
+      type: object
+      properties:
+        id:
+          description: id of the data delivery used for tracking and error reporting
+          type: string
+          format: uuid
+          examples: 
+            - "149c9b31-9b75-43e7-8677-22c8348cdb66"
+        provider:
+          $ref: "#/components/schemas/Company"
+        creationTime:
+          description: "creation date of the data. New data will replace all older data "
+          $ref: "#/components/schemas/DateTime"              
+        contributingProviders:
+          description: list of contributing providers in case of consolidated data
+          type: array
+          items:
+            - $ref: "#/components/schemas/Company"
+      required:
+        - id
+        - provider
+        - creationTime 
 
     DateTime:
       description: UTC date in format YYYY-MM-DDThh:mm:ss.sTZD. TZD must be given as offset (eg. 1997-07-16T19:20:30.45+01:00)
@@ -471,6 +609,64 @@ components:
       format: date-time
       examples: 
         - "2023-07-16T19:20:30.45+01:00"
+
+              
+    DelayReason:
+      description: reason code for delays TAF codes of uic codes
+      type: string
+      examples: 
+        - "urn:x-taf:25"
+        - "WAITING_FOR_DELAYED_PASSENGERS"
+
+    Departure:
+      allOf:
+        - $ref: '#/components/schemas/ServiceRunEvent'
+        - $ref: '#/components/schemas/TimeTabledServiceRunEvent'
+        - type: object    
+          properties:
+              carrier:
+                 $ref: "#/components/schemas/Company"
+              significance:
+                 $ref: "#/components/schemas/Significance"
+              stopId:
+                 description: uniqueId of the stop to distinguish multiple stops at the same station
+                 type: string
+                 examples:
+                   - "2f31d510-5944-4280-a90b-32ec0ba86965"
+              boarding:
+                 description: indicator for restricted boarding 
+                 type: boolean
+                 default: true   
+              occupancy:
+                 type: string
+                 format: x-extensible-enum
+                   - EMPTY
+                   - MANY_SEATS_AVAILABLE
+                   - FEW_SEATS_AVAILABLE
+                   - STANDING_ROOM_ONLY
+                   - NOT_ACCEPTING_PASSENGERS
+              congestion:
+                 description: e.g. stuck in traffic jam, no delay estimation available
+                 type: boolean
+                 default: true
+              platform:
+                type: string
+                examples:
+                 - 13B
+              track:
+                type: string
+                examples:
+                 - "13B"         
+              vehicleGroups:
+                description: groups of vehicles. Multiple groups can be used to describe connected service parts with separate service names.
+                type: array
+                items:
+                  $ref: "#/components/schemas/VehicleGroup"             
+          required:
+             - location
+             - carrier
+             - significance
+             - plannedTime
 
     ErrorDescription:
       description: error description for an error that occurred in a queue
@@ -513,6 +709,162 @@ components:
         - type
         - time
         - severity
+    
+    EventType:
+      description: discriminator for inheritance between data types
+      type: string
+      format: x-extensible-enum
+        - ARRIVAL
+        - DEPARTURE
+        - PASS_THROUGH
+        - GEO_TRACKING
+        - 
+    Filter:
+      type: object
+      properties:
+        carriers:
+          description: carriers to filter
+          type: array
+          items:
+            $ref: "#/components/schemas/Company"
+          examples:
+            - "[1080],[1087]"  
+        carrierFilterType:
+          type: string
+          format: x-extensible-enum
+            - INCLUDE // selects services where one of the specified carriers serve some part of the service. 
+            - EXCLUDE // excludes services where all of the specified companies are NOT the carrier on some part of the service
+        countries:
+          description: countries to be filtered
+          type: array
+          items:          
+            $ref: "#/components/schemas/Country"
+        countryFilterType:
+          type: string
+          format: x-extensible-enum
+            - INCLUDE // select services in case one of these countries is part of the route of the service 
+            - EXCLUDE  // excludes services in case the service is run exclusively in these countries      
+        countryBorderCrossings:
+          description: applies in case the service is crossing the border between the specified countries in one of the border crossings
+          $ref: "#/components/schemas/CountryBorderCrossings"
+        multiCarrierServicesOnly:
+          description: data will be provided for multi carrier services only 
+          type: boolean
+          default: false
+        countryCrossBorderOnly:
+          description: data will be provided for services crossing country borders only 
+          type: boolean
+          default: false        
+
+    GeoTracking:
+      allOf:
+        - $ref: "#/components/schemas/ServiceRunEvent"
+        - type: object
+          description: >- 
+               Geo-Tracking-Event on a service run. Documents the position of a service (or vehicle group of a service) at a time.
+          properties:
+              time:
+                description: time when the service was at the provided position
+                type: string
+                format: date-time
+                examples:
+                  - "2024-07-14T19:43:37+01:00"       
+              position:
+                $ref: '#/components/schemas/GeoPosition'
+              carrier:
+                 $ref: "#/components/schemas/Company"
+              vehicleGroupRefs:
+                description: groups of vehicles where this geo-position applies
+                type: array
+                items:
+                  $ref: "#/components/schemas/VehicleGroupRef"  
+          required:
+              - objectType
+              - time
+              - position
+
+    GeoPosition:
+      type: object
+      additionalProperties: false
+      description: >-
+        WGS84 coordinates position. Provided by OJP.
+      required:
+        - longitude
+        - latitude
+      properties:
+        longitude:
+          $ref: '#/components/schemas/Longitude'
+        latitude:
+          $ref: '#/components/schemas/Latitude'
+
+    Latitude:
+      type: number
+      format: double
+      description: >-
+        Latitude from equator. -90 (South) to +90 (North). Decimal degrees. e.g. 56.356.
+      minimum: -90
+      maximum: 90
+      examples: 
+        - 47.37818
+
+
+    Location:
+      description: >-
+             location code: either merits code or from another code list formatted as urn
+      type: object
+      properties: 
+        code: 
+          type: string
+          examples:
+            - "8012345"
+            - "urn:uic:stn:8512345"
+            - "urn:NL:nationalLocations:8512345"
+        name:
+          type: string
+          examples:
+            - "Amsterdam Centraal"
+            - "Köln Hbf"
+        country:
+          $ref: "#/components/schemas/Country"               
+      required:
+        - code
+
+    Longitude:
+      type: number
+      format: double
+      description: >-
+        Longitude from Greenwich Meridian. -180 (West) to +180 (East). Decimal degrees. eg 2.356.
+      minimum: -180
+      maximum: 180
+      examples: 
+        - 8.54021
+        
+    PassThrough:
+      allOf:
+        - $ref: '#/components/schemas/ServiceRunEvent'
+        - $ref: '#/components/schemas/TimeTabledServiceRunEvent'
+        - type: object
+          properties:       
+              significance:
+                 $ref: "#/components/schemas/Significance"
+              type:
+                type: string
+                format: x-extensible-enum
+                  - STATION
+                  - IM_HAND_OVER
+                  - IM_POINT
+                examples:
+                  - "STATION"                  
+              carrier:
+                 $ref: "#/components/schemas/Company"
+              fromIM:
+                $ref: "#/components/schemas/Company"
+              toIM:
+                description: handover from this infratstucture manager
+                $ref: "#/components/schemas/Company"                
+          required:
+              - location
+              - type  
 
     ServiceRunIds:
       description: list of service run ids
@@ -685,183 +1037,7 @@ components:
         - serviceRunRef
         - events
         
-    CancellationType:
-       description: >-
-             details on the cause of cancellation. Either cancelled by 
-             the Carrier by sending the cancel information (CANCELLED_BY_CARRIER) or cancelled as the Carrier did not 
-             send the stop compared to the reference time table (MISSING_FROM_CARRIER) or the service is not any more included 
-             in a new time table update (MISSING_FROM_TIMETABLE) .
-       type: string
-       format: x-extensible-enum
-             - MISSING_FROM_CARRIER
-             - CANCELLED_BY_CARRIER  
-             - MISSING_FROM_TIMETABLE
-    
-    
-    TimeTableReference:
-      type: object
-      properties:
-        timeTable:
-          description: name of thetime table
-          type: string
-          format: x-extensible-enum
-            - UIC_MERITS
-          examples:
-            - "UIC_MERITS"
-        version:
-          description: referenced version of the time table. In case of MERITS the date of delivery used in the file name.
-          type: string
-          examples: 
-            - "2024-07-14"
-      required:
-       - timeTable
-       - version
-         
-        
-    
-    DataDelivery:
-      type: object
-      properties:
-        id:
-          description: id of the data delivery used for tracking and error reporting
-          type: string
-          format: uuid
-          examples: 
-            - "149c9b31-9b75-43e7-8677-22c8348cdb66"
-        provider:
-          $ref: "#/components/schemas/Company"
-        creationTime:
-          description: "creation date of the data. New data will replace all older data "
-          $ref: "#/components/schemas/DateTime"              
-        contributingProviders:
-          description: list of contributing providers in case of consolidated data
-          type: array
-          items:
-            - $ref: "#/components/schemas/Company"
-      required:
-        - id
-        - provider
-        - creationTime 
-        
-    VehicleGroup:
-      type: object
-      properties:
-        id:
-           description: id of the vehicle group at least unique within the service run accross muptiple arrivals and departures
-           type: string
-        serviceRunRef:
-          description: >- 
-               service number for the vehicle group. This might be different from the main service number
-          $ref: "#/components/schemas/ServiceRunReference"
-        vehicles:
-          type: array
-          items:
-            $ref: "#/components/schemas/VehicleStop"
- 
-    VehicleGroupRef:
-       type: object
-       properties:
-         id:
-           description: id of the vehicle group at least unique within the service run accross muptiple arrivals and departures
-           type: string
-         serviceRunRef:
-           description: >- 
-                service number for the vehicle group. This might be different from the main service number
-           $ref: "#/components/schemas/ServiceRunReference"
-         vehicleRefs:
-           type: array
-           items:
-            $ref: "#/components/schemas/VehicleRef"
-            
-    VehicleRef:
-      type: object
-      required:
-        - vehicleNumber
-      properties:
-        vehicleId:
-          description: UIC vehicle id or  another code defined as urn
-          type: string
-          examples: 
-            - "31816650286"
-            - "urn:uic:veh:31816650286"
-        vehicleNumber:
-          description: >-
-            vehicle number used for customer commmunication in bookings and on
-            platforms. Note: not all verhicles might have a number (e.g. luggage
-            coaches, locomotives)
-          type: string
-          examples:
-            - "12"      
 
-    VehicleStop:
-      type: object
-      required:
-        - vehicleRef
-      properties:
-        vehicleRef:
-          $ref: "#/components/schemas/VehicleRef"
-        facilities:
-          description: additional facilities available in the vehicle for the next section
-          type: array
-          items:
-            description: OSDM code list
-            type: string
-          examples:
-            - "ALIGHTING_POSSIBLE_30M"
-            - "NURSERY_SERVICE"
-        serviceClasses:
-          type: array
-          items:
-            description: OSDM code list
-            type: string
-          examples:
-            - SECOND_CLASS  
-        platform:
-            type: string
-            examples:
-              - 6
-        platformSection:
-            type: string
-            examples:
-              - "C"
-        track:
-            type: string
-            examples:
-              - "13"
-        trackSection:
-            type: string
-            examples:
-              - "C"
-        vehicleStatus:
-          description: >-
-             option to mark a coach as closed or missing
-          type: string
-          format: x-extensible-enum
-             - USABLE
-             - MISSING
-             - CLOSED
-          default: USABLE                 
-    
-    Location:
-      description: >-
-             location code: either merits code or from another code list formatted as urn
-      type: object
-      properties: 
-        code: 
-          type: string
-          examples:
-            - "8012345"
-            - "urn:uic:stn:8512345"
-            - "urn:NL:nationalLocations:8512345"
-        name:
-          type: string
-          examples:
-            - "Amsterdam Centraal"
-            - "Köln Hbf"
-        country:
-          $ref: "#/components/schemas/Country"               
-      required:
-        - code
     
     ServiceRunReference:
       type: object
@@ -939,144 +1115,6 @@ components:
           examples:
             - "ICE"    
     
-    TimeTableserviceRunId:
-       type: object
-       properties:
-          timeTable:
-            $ref: "#/components/schemas/TimeTableReference"    
-          id: 
-            type: string
-            examples: 
-               - "43b65be1-dce9-42a3-b4df-9b8153129eae" 
-       required:
-               - id
-    
-    Departure:
-      allOf:
-        - $ref: '#/components/schemas/ServiceRunEvent'
-        - $ref: '#/components/schemas/TimeTabledServiceRunEvent'
-        - type: object    
-          properties:
-              carrier:
-                 $ref: "#/components/schemas/Company"
-              significance:
-                 $ref: "#/components/schemas/Significance"
-              stopId:
-                 description: uniqueId of the stop to distinguish multiple stops at the same station
-                 type: string
-                 examples:
-                   - "2f31d510-5944-4280-a90b-32ec0ba86965"
-              boarding:
-                 description: indicator for restricted boarding 
-                 type: boolean
-                 default: true   
-              occupancy:
-                 type: string
-                 format: x-extensible-enum
-                   - EMPTY
-                   - MANY_SEATS_AVAILABLE
-                   - FEW_SEATS_AVAILABLE
-                   - STANDING_ROOM_ONLY
-                   - NOT_ACCEPTING_PASSENGERS
-              congestion:
-                 description: e.g. stuck in traffic jam, no delay estimation available
-                 type: boolean
-                 default: true
-              platform:
-                type: string
-                examples:
-                 - 13B
-              track:
-                type: string
-                examples:
-                 - "13B"         
-              vehicleGroups:
-                description: groups of vehicles. Multiple groups can be used to describe connected service parts with separate service names.
-                type: array
-                items:
-                  $ref: "#/components/schemas/VehicleGroup"             
-          required:
-             - location
-             - carrier
-             - significance
-             - plannedTime
-        
-    Arrival:
-      allOf:
-        - $ref: '#/components/schemas/ServiceRunEvent'
-        - $ref: '#/components/schemas/TimeTabledServiceRunEvent'
-        - type: object    
-          properties:   
-              carrier:
-                 $ref: "#/components/schemas/Company"
-              stopId:
-                 description: uniqueId of the stop to distinguish multiple stops at the same station
-                 type: string
-                 examples:
-                   - "2f31d510-5944-4280-a90b-32ec0ba86965"          
-              significance:
-                $ref: "#/components/schemas/Significance"
-              alighting:
-                 description: indicator for restricted alighting. true = alighting allowed
-                 type: boolean
-                 default: true                
-              vehicleGroups:
-                description: groups of vehicles. Multiple groups can be used to describe connected service parts with separate service names.
-                type: array
-                items:
-                  $ref: "#/components/schemas/VehicleGroup"
-              platform:
-                type: string
-                examples:
-                 - 13B
-              track:
-                type: string
-                examples:
-                 - "13B"
-              connections:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Connection"
-          required:
-             - location 
-             - carrier
-             - significance
-             - plannedTime
-        
-    PassThrough:
-      allOf:
-        - $ref: '#/components/schemas/ServiceRunEvent'
-        - $ref: '#/components/schemas/TimeTabledServiceRunEvent'
-        - type: object
-          properties:       
-              significance:
-                 $ref: "#/components/schemas/Significance"
-              type:
-                type: string
-                format: x-extensible-enum
-                  - STATION
-                  - IM_HAND_OVER
-                  - IM_POINT
-                examples:
-                  - "STATION"                  
-              carrier:
-                 $ref: "#/components/schemas/Company"
-              fromIM:
-                $ref: "#/components/schemas/Company"
-              toIM:
-                description: handover from this infratstucture manager
-                $ref: "#/components/schemas/Company"                
-          required:
-              - location
-              - type  
-              
-    DelayReason:
-      description: reason code for delays TAF codes of uic codes
-      type: string
-      examples: 
-        - "urn:x-taf:25"
-        - "WAITING_FOR_DELAYED_PASSENGERS"
-    
     Significance:
       description: >-
         indication whether the provider is responsible for these data or whether
@@ -1093,51 +1131,6 @@ components:
         - ON_REQUEST
         - REQUESTED
       default: ON_REQUEST
-
-    DelayStatus:
-      type: string
-      enum:
-        - UNKNOWN
-        - CANCELLED
-        - DELAYED
-        - ON_SCHEDULE
-      
-    ConnectionStatus:
-      type: string
-      enum:
-        - LOST
-        - KEPT
-        - AT_RISK
-      
-    Connection:
-      type: object
-      properties:
-        serviceRef:
-          $ref: "#/components/schemas/ServiceRunReference"
-        status:
-          $ref: "#/components/schemas/ConnectionStatus"
-      required:
-        - serviceRef
-        - status
-    
-    
-    Company:
-      description: >-
-        company code. TAP-TSI code in case of rail. Code list to be qualified by urn.
-      type: string
-      examples:
-       - "urn:uic:rics:2480"
-       - "urn:uic:rics:1184"
-       - "urn:uic:rics:0084"
-       
-    Country:
-      description: >-
-        ISO 3166 2A country code.
-      type: string
-      pattern: "^[A-Z]{2}$"
-      examples:
-       - DE
-       - NL      
       
     SubscriptionInfos:
       type: array      
@@ -1279,66 +1272,6 @@ components:
         - hook
         - user
         - accessToken
-    
-    Filter:
-      type: object
-      properties:
-        carriers:
-          description: carriers to filter
-          type: array
-          items:
-            $ref: "#/components/schemas/Company"
-          examples:
-            - "[1080],[1087]"  
-        carrierFilterType:
-          type: string
-          format: x-extensible-enum
-            - INCLUDE // selects services where one of the specified carriers serve some part of the service. 
-            - EXCLUDE // excludes services where all of the specified companies are NOT the carrier on some part of the service
-        countries:
-          description: countries to be filtered
-          type: array
-          items:          
-            $ref: "#/components/schemas/Country"
-        countryFilterType:
-          type: string
-          format: x-extensible-enum
-            - INCLUDE // select services in case one of these countries is part of the route of the service 
-            - EXCLUDE  // excludes services in case the service is run exclusively in these countries      
-        countryBorderCrossings:
-          description: applies in case the service is crossing the border between the specified countries in one of the border crossings
-          $ref: "#/components/schemas/CountryBorderCrossings"
-        multiCarrierServicesOnly:
-          description: data will be provided for multi carrier services only 
-          type: boolean
-          default: false
-        countryCrossBorderOnly:
-          description: data will be provided for services crossing country borders only 
-          type: boolean
-          default: false        
-    
-    CountryBorderCrossing:
-      description: crossing between two countries
-      type: array
-      minItems: 2
-      maxItems: 2
-      items:
-        $ref: "#/components/schemas/Country"
-
-    CountryBorderCrossings:
-      type: array
-      description: List of country code pairs for border crossings.
-      items:
-        $ref: "#/components/schemas/CountryBorderCrossing"
-    
-    EventType:
-      description: discriminator for inheritance between data types
-      type: string
-      format: x-extensible-enum
-        - ARRIVAL
-        - DEPARTURE
-        - PASS_THROUGH
-        - GEO_TRACKING
 
     ServiceRunEvent:
       description: Event on a service run. This could either be a departure, arrival, a pass through or a geo-tracking.
@@ -1361,33 +1294,6 @@ components:
           $ref: "#/components/schemas/EventType"
       required:
         - objectType
-      
-    GeoTracking:
-      allOf:
-        - $ref: "#/components/schemas/ServiceRunEvent"
-        - type: object
-          description: >- 
-               Geo-Tracking-Event on a service run. Documents the position of a service (or vehicle group of a service) at a time.
-          properties:
-              time:
-                description: time when the service was at the provided position
-                type: string
-                format: date-time
-                examples:
-                  - "2024-07-14T19:43:37+01:00"       
-              position:
-                $ref: '#/components/schemas/GeoPosition'
-              carrier:
-                 $ref: "#/components/schemas/Company"
-              vehicleGroupRefs:
-                description: groups of vehicles where this geo-position applies
-                type: array
-                items:
-                  $ref: "#/components/schemas/VehicleGroupRef"  
-          required:
-              - objectType
-              - time
-              - position
       
     TimeTabledServiceRunEvent:
           type: object        
@@ -1450,37 +1356,133 @@ components:
             - objectType
             - location
             - plannedTime
-            
-    GeoPosition:
+
+    TimeTableReference:
       type: object
-      additionalProperties: false
-      description: >-
-        WGS84 coordinates position. Provided by OJP.
-      required:
-        - longitude
-        - latitude
       properties:
-        longitude:
-          $ref: '#/components/schemas/Longitude'
-        latitude:
-          $ref: '#/components/schemas/Latitude'
+        timeTable:
+          description: name of thetime table
+          type: string
+          format: x-extensible-enum
+            - UIC_MERITS
+          examples:
+            - "UIC_MERITS"
+        version:
+          description: referenced version of the time table. In case of MERITS the date of delivery used in the file name.
+          type: string
+          examples: 
+            - "2024-07-14"
+      required:
+       - timeTable
+       - version
+         
+    TimeTableserviceRunId:
+       type: object
+       properties:
+          timeTable:
+            $ref: "#/components/schemas/TimeTableReference"    
+          id: 
+            type: string
+            examples: 
+               - "43b65be1-dce9-42a3-b4df-9b8153129eae" 
+       required:
+               - id
+        
+    VehicleGroup:
+      type: object
+      properties:
+        id:
+           description: id of the vehicle group at least unique within the service run accross muptiple arrivals and departures
+           type: string
+        serviceRunRef:
+          description: >- 
+               service number for the vehicle group. This might be different from the main service number
+          $ref: "#/components/schemas/ServiceRunReference"
+        vehicles:
+          type: array
+          items:
+            $ref: "#/components/schemas/VehicleStop"
+ 
+    VehicleGroupRef:
+       type: object
+       properties:
+         id:
+           description: id of the vehicle group at least unique within the service run accross muptiple arrivals and departures
+           type: string
+         serviceRunRef:
+           description: >- 
+                service number for the vehicle group. This might be different from the main service number
+           $ref: "#/components/schemas/ServiceRunReference"
+         vehicleRefs:
+           type: array
+           items:
+            $ref: "#/components/schemas/VehicleRef"
+            
+    VehicleRef:
+      type: object
+      required:
+        - vehicleNumber
+      properties:
+        vehicleId:
+          description: UIC vehicle id or  another code defined as urn
+          type: string
+          examples: 
+            - "31816650286"
+            - "urn:uic:veh:31816650286"
+        vehicleNumber:
+          description: >-
+            vehicle number used for customer commmunication in bookings and on
+            platforms. Note: not all verhicles might have a number (e.g. luggage
+            coaches, locomotives)
+          type: string
+          examples:
+            - "12"      
 
-    Longitude:
-      type: number
-      format: double
-      description: >-
-        Longitude from Greenwich Meridian. -180 (West) to +180 (East). Decimal degrees. eg 2.356.
-      minimum: -180
-      maximum: 180
-      examples: 
-        - 8.54021
-
-    Latitude:
-      type: number
-      format: double
-      description: >-
-        Latitude from equator. -90 (South) to +90 (North). Decimal degrees. e.g. 56.356.
-      minimum: -90
-      maximum: 90
-      examples: 
-        - 47.37818
+    VehicleStop:
+      type: object
+      required:
+        - vehicleRef
+      properties:
+        vehicleRef:
+          $ref: "#/components/schemas/VehicleRef"
+        facilities:
+          description: additional facilities available in the vehicle for the next section
+          type: array
+          items:
+            description: OSDM code list
+            type: string
+          examples:
+            - "ALIGHTING_POSSIBLE_30M"
+            - "NURSERY_SERVICE"
+        serviceClasses:
+          type: array
+          items:
+            description: OSDM code list
+            type: string
+          examples:
+            - SECOND_CLASS  
+        platform:
+            type: string
+            examples:
+              - 6
+        platformSection:
+            type: string
+            examples:
+              - "C"
+        track:
+            type: string
+            examples:
+              - "13"
+        trackSection:
+            type: string
+            examples:
+              - "C"
+        vehicleStatus:
+          description: >-
+             option to mark a coach as closed or missing
+          type: string
+          format: x-extensible-enum
+             - USABLE
+             - MISSING
+             - CLOSED
+          default:    USABLE                 

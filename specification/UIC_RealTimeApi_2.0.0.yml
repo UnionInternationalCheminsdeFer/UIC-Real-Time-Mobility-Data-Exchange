@@ -744,7 +744,7 @@ components:
           type: string
           x-extensible-enum:
            - INCLUDE   : select services where ANY of these countries is part of the route of the service. In this case, international services running at least partly in any of those countries are included in the selection.
-	   - EXCLUSIVE : select services where the route of the service is run completely inside ANY of these countries. In this case, international services across the provided countries are not included in the selection.
+           - EXCLUSIVE : select services where the route of the service is run completely inside ANY of these countries. In this case, international services across the provided countries are not included in the selection.
            - EXCLUDE   : select services where NONE of the specified countries are any part of the service.   
         countryBorderCrossings:
           description: applies in case the service is crossing the border between the specified countries in one of the border crossings

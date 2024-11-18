@@ -514,7 +514,7 @@ components:
              send the stop compared to the reference time table (MISSING_FROM_CARRIER) or the service is not any more included 
              in a new time table update (MISSING_FROM_TIMETABLE) .
        type: string
-       format: x-extensible-enum
+       x-extensible-enum:
              - MISSING_FROM_CARRIER
              - CANCELLED_BY_CARRIER  
              - MISSING_FROM_TIMETABLE
@@ -731,7 +731,7 @@ components:
             - "[1080],[1087]"  
         carrierFilterType:
           type: string
-          format: x-extensible-enum
+          x-extensible-enum:
            - INCLUDE   : selects services where ANY of the specified carriers serve any part of the service.
            - EXCLUSIVE : selects services where ANY of the specified carriers serve all parts of the service. In this case, services run by multiple carriers are not included in the selection.
            - EXCLUDE   : selects services where NONE of the specified companies are the carrier for any part of the service.
@@ -742,7 +742,7 @@ components:
             $ref: "#/components/schemas/Country"
         countryFilterType:
           type: string
-          format: x-extensible-enum
+          x-extensible-enum:
            - INCLUDE   : select services where ANY of these countries is part of the route of the service. In this case, international services running at least partly in any of those countries are included in the selection.
 	   - EXCLUSIVE : select services where the route of the service is run completely inside ANY of these countries. In this case, international services across the provided countries are not included in the selection.
            - EXCLUDE   : select services where NONE of the specified countries are any part of the service.   
@@ -1483,7 +1483,7 @@ components:
           description: >-
              option to mark a coach as closed or missing
           type: string
-          format: x-extensible-enum
+          x-extensible-enum:
              - USABLE
              - MISSING
              - CLOSED

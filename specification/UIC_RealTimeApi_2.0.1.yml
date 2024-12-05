@@ -1,7 +1,7 @@
 openapi: 3.1.0                                     
 info:
   title: UIC 90918-11
-  version: 2.0.0
+  version: 2.0.1
   description: Specifications for the UIC Real Time API.
 
 
@@ -467,7 +467,6 @@ components:
         
     Arrival:
       allOf:
-        - $ref: '#/components/schemas/ServiceRunEvent'
         - $ref: '#/components/schemas/TimeTabledServiceRunEvent'
         - type: object    
           properties:   
@@ -620,7 +619,6 @@ components:
 
     Departure:
       allOf:
-        - $ref: '#/components/schemas/ServiceRunEvent'
         - $ref: '#/components/schemas/TimeTabledServiceRunEvent'
         - type: object    
           properties:
@@ -760,7 +758,6 @@ components:
 
     GeoTracking:
       allOf:
-        - $ref: "#/components/schemas/ServiceRunEvent"
         - type: object
           description: >- 
                Geo-Tracking-Event on a service run. Documents the position of a service (or vehicle group of a service) at a time.
@@ -843,7 +840,6 @@ components:
         
     PassThrough:
       allOf:
-        - $ref: '#/components/schemas/ServiceRunEvent'
         - $ref: '#/components/schemas/TimeTabledServiceRunEvent'
         - type: object
           properties:       

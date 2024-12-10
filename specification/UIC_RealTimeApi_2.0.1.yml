@@ -637,7 +637,7 @@ components:
                  default: true   
               occupancy:
                  type: string
-                 format: x-extensible-enum
+                 x-extensible-enum:
                    - EMPTY
                    - MANY_SEATS_AVAILABLE
                    - FEW_SEATS_AVAILABLE
@@ -711,7 +711,7 @@ components:
     EventType:
       description: discriminator for inheritance between data types
       type: string
-      format: x-extensible-enum
+      x-extensible-enum:
         - ARRIVAL
         - DEPARTURE
         - PASS_THROUGH
@@ -847,7 +847,7 @@ components:
                  $ref: "#/components/schemas/Significance"
               type:
                 type: string
-                format: x-extensible-enum
+                x-extensible-enum:
                   - STATION
                   - IM_HAND_OVER
                   - IM_POINT
@@ -916,7 +916,7 @@ components:
           type: array
           items:
             type: string
-            format: x-extensible-enum
+            x-extensible-enum:
               - DELAY_CHANGE
               - STOP_CANCELLED
               - STOP_ADDED
@@ -1124,7 +1124,7 @@ components:
 
     StopStatus:
       type: string
-      format: x-extensible-enum
+      x-extensible-enum:
         - PLANNED
         - ON_REQUEST
         - REQUESTED
@@ -1361,7 +1361,7 @@ components:
         timeTable:
           description: name of thetime table
           type: string
-          format: x-extensible-enum
+          x-extensible-enum:
             - UIC_MERITS
           examples:
             - "UIC_MERITS"

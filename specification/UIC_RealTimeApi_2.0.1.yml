@@ -467,7 +467,7 @@ components:
         
     Arrival:
       allOf:
-        - $ref: '#/components/schemas/TimeTabledServiceRunEvent'
+        - $ref: "#/components/schemas/TimeTabledServiceRunEvent"
         - type: object    
           properties:   
               carrier:
@@ -708,14 +708,6 @@ components:
         - time
         - severity
     
-    EventType:
-      description: discriminator for inheritance between data types
-      type: string
-      x-extensible-enum:
-        - ARRIVAL
-        - DEPARTURE
-        - PASS_THROUGH
-        - GEO_TRACKING
     Filter:
       type: object
       properties:
@@ -761,8 +753,8 @@ components:
           description: >- 
                Geo-Tracking-Event on a service run. Documents the position of a service (or vehicle group of a service) at a time.
           properties:
-              objectType: 
-             	  "$ref": "#/definitions/ServiceRunEventType"
+              objectType:
+                "$ref": "#/components/schemas/ServiceRunEventType"
               time:
                 description: time when the service was at the provided position
                 type: string
@@ -864,6 +856,15 @@ components:
           required:
               - location
               - type  
+
+    ServiceRunEventType:
+      description: discriminator for inheritance between data types
+      type: string
+      x-extensible-enum:
+        - ARRIVAL
+        - DEPARTURE
+        - PASS_THROUGH
+        - GEO_TRACKING
 
     ServiceRunIds:
       description: list of service run ids
@@ -1297,8 +1298,8 @@ components:
           description: >-
              Event on a service run. This could eigther be a departure, arrival or a pass through.
           properties:
-            objectType: 
-             	"$ref": "#/definitions/ServiceRunEventType"
+            objectType:
+              "$ref": "#/components/schemas/ServiceRunEventType"
             location:
               $ref: "#/components/schemas/Location" 
             plannedTime:

@@ -596,7 +596,7 @@ components:
           description: list of contributing providers in case of consolidated data
           type: array
           items:
-            - $ref: "#/components/schemas/Company"
+            $ref: "#/components/schemas/Company"
       required:
         - id
         - provider

@@ -716,7 +716,6 @@ components:
         - DEPARTURE
         - PASS_THROUGH
         - GEO_TRACKING
-        - 
     Filter:
       type: object
       properties:
@@ -762,6 +761,8 @@ components:
           description: >- 
                Geo-Tracking-Event on a service run. Documents the position of a service (or vehicle group of a service) at a time.
           properties:
+              objectType: 
+             	  "$ref": "#/definitions/ServiceRunEventType"
               time:
                 description: time when the service was at the provided position
                 type: string
@@ -866,6 +867,7 @@ components:
 
     ServiceRunIds:
       description: list of service run ids
+      type: object
       properties:
         serviceRunIds:
           type: array
@@ -1275,7 +1277,7 @@ components:
       description: Event on a service run. This could either be a departure, arrival, a pass through or a geo-tracking.
       type: object
       schema:
-        oneOf:
+        anyOf:
           - $ref: "#/components/schemas/Arrival"
           - $ref: "#/components/schemas/Departure"
           - $ref: "#/components/schemas/PassThrough"
@@ -1283,13 +1285,10 @@ components:
       discriminator:
         propertyName: objectType
         mapping:
-          ARRIVAL: "#/components/schemas/Arrival"
-          DEPARTURE: "#/components/schemas/Departure"
-          PASS_THROUGH: "#/components/schemas/PassThrough"
-          GEO_TRACKING: "#/components/schemas/GeoTracking"
-      properties:
-        objectType:
-          $ref: "#/components/schemas/EventType"
+          ARRIVAL: "Arrival"
+          DEPARTURE: "Departure"
+          PASS_THROUGH: "PassThrough"
+          GEO_TRACKING: "GeoTracking"
       required:
         - objectType
       
@@ -1298,6 +1297,8 @@ components:
           description: >-
              Event on a service run. This could eigther be a departure, arrival or a pass through.
           properties:
+            objectType: 
+             	"$ref": "#/definitions/ServiceRunEventType"
             location:
               $ref: "#/components/schemas/Location" 
             plannedTime:

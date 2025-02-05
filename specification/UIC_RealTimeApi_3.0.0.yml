@@ -659,7 +659,6 @@ components:
               congestion:
                  description: e.g. stuck in traffic jam, no delay estimation available
                  type: boolean
-                 default: true
               platform:
                 type: string
                 maxLength: 1024

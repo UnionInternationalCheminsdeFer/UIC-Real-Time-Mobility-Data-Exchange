@@ -1412,12 +1412,12 @@ components:
               maxItems: 100
               items:
                  $ref: "#/components/schemas/DelayReason"     
-              lastModified:
-                description: last modification time stamp of the event
-                type: string
-                format: date-time
-                examples:
-                  - "2024-07-14T19:43:47+01:00"
+            lastModified:
+              description: last modification time stamp of the event
+              type: string
+              format: date-time
+              examples:
+                - "2024-07-14T19:43:47+01:00"
           required:
             - objectType
             - location

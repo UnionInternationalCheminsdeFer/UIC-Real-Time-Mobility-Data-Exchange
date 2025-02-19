@@ -1,17 +1,20 @@
 {
-	"serviceId": "b635e785-cc5e-49c6-9f9a-d90a39aa508f",
-	"serviceRef": {
-		"serviceId": "b635e785-cc5e-49c6-9f9a-d90a39aa508f",
-		"serviceName": "10",
-		"serviceBrandAbreviation": "ICE",
-		"originalPlannedStartDate": "2023-05-18",
-		"plannedStartDate": "2023-05-18"
-	},
 	"dataDelivery": {
 		"id": "36c1ceae-420f-4112-ba0b-49e3a6d0e855",
 		"provider": "1088",
 		"creationTime": "2023-05-17T09:35:47.0+01:00"
 	},
+	"serviceRunRef": {
+		"serviceRunId": "b635e785-cc5e-49c6-9f9a-d90a39aa508f",
+		"serviceName": "10",
+        "serviceBrands": [
+			 {
+			   "code": "51",
+			   "abbreviation": "ICE"
+			 }
+		]
+	},
+
 	"events": [
 		{
 			"objectType": "Arrival",

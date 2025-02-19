@@ -1,33 +1,35 @@
 {
-   "serviceId": "8b4b6714-dfe0-4899-b370-7ad6efad54e9",
-   "serviceRef": {
-      "serviceId": "8b4b6714-dfe0-4899-b370-7ad6efad54e9",
-      "serviceName": "10",
-      "serviceBrandAbreviation": "ICE",
-      "originalPlannedStartDate": "2023-05-18",
-      "plannedStartDate": "2023-05-18",
-      "carrierServiceIds": [
-         {
-            "carrier": "1080",
-            "carrierServiceId": "8b4b6714-dfe0-4899-b370-7ad6efad54e9"
-         },
-         {
-            "carrier": "1088",
-            "carrierServiceId": "b635e785-cc5e-49c6-9f9a-d90a39aa508f"
-         }
-      ]
-   },
-   "dataDelivery": {
+    "dataDelivery": {
       "id": "149c9b31-9b75-43e7-8677-22c8348cdb66",
       "provider": "1080",
       "creationTime": "2023-05-18T20:40:00.0+01:00",
       "contributingProviders": [
-         "1088"
+         "1088","1080"
       ]
+   },
+   "serviceRunRef": {
+		"serviceRunId": "8b4b6714-dfe0-4899-b370-7ad6efad54e0",
+		"serviceName": "10",
+        "serviceBrands": [
+			 {
+			   "code": "51",
+			   "abbreviation": "ICE"
+			 }
+		],
+        "providerServiceRunIds": [
+			 {
+				"provider": "1080",
+				"serviceRunId": "8b4b6714-dfe0-4899-b370-7ad6efad54e9"
+			 },
+			 {
+				"provider": "1088",
+				"serviceRunId": "b635e785-cc5e-49c6-9f9a-d90a39aa508f"
+			 }
+		]
    },
    "events": [
       {
-         "objectType": "Departure",
+         "objectType": "DEPARTURE",
          "location": {
             "code": "urn:uic:stn:8011068",
             "name": "Frankfurt(Main)Hbf"
@@ -39,9 +41,10 @@
          "track": "19",
          "vehicleGroups": [
             {
-               "service": {
-                  "serviceName": "10"
-               },
+				"serviceRunRef": {
+						"serviceRunId": "8b4b6714-dfe0-4899-b370-7ad6efad54e0",
+						"serviceName": "10"
+				},
                "vehicles": [
                   {
                      "vehicleRef": {
@@ -139,7 +142,7 @@
          ]
       },
       {
-         "objectType": "Arrival",
+         "objectType": "ARRIVAL",
          "location": {
             "code": "urn:uic:stn:8061676",
             "name": "Frankfurt(M) Flughafen Fernbf"
@@ -151,9 +154,10 @@
          "track": "7",
          "vehicleGroups": [
             {
-               "service": {
-                  "serviceName": "10"
-               },
+				"serviceRunRef": {
+						"serviceRunId": "8b4b6714-dfe0-4899-b370-7ad6efad54e0",
+						"serviceName": "10"
+				},
                "vehicles": [
                   {
                      "vehicleRef": {
@@ -251,7 +255,7 @@
          ]
       },
       {
-         "objectType": "Departure",
+         "objectType": "DEPARTURE",
          "location": {
             "code": "urn:uic:stn:8011068",
             "name": "Frankfurt(M) Flughafen Fernbf"
@@ -263,9 +267,10 @@
          "track": "7",
          "vehicleGroups": [
             {
-               "service": {
-                  "serviceName": "10"
-               },
+				"serviceRunRef": {
+						"serviceRunId": "8b4b6714-dfe0-4899-b370-7ad6efad54e0",
+						"serviceName": "10"
+				},
                "vehicles": [
                   {
                      "vehicleRef": {
@@ -363,7 +368,7 @@
          ]
       },
       {
-         "objectType": "Arrival",
+         "objectType": "ARRIVAL",
          "location": {
             "code": "urn:uic:stn:8015458",
             "name": "Köln Hbf"
@@ -375,9 +380,10 @@
          "track": "5",
          "vehicleGroups": [
             {
-               "service": {
-                  "serviceName": "10"
-               },
+				"serviceRunRef": {
+						"serviceRunId": "8b4b6714-dfe0-4899-b370-7ad6efad54e0",
+						"serviceName": "10"
+				},
                "vehicles": [
                   {
                      "vehicleRef": {
@@ -475,7 +481,7 @@
          ]
       },
       {
-         "objectType": "Departure",
+         "objectType": "DEPARTURE",
          "location": {
             "code": "urn:uic:stn:8015458",
             "name": "Köln Hbf"
@@ -487,9 +493,10 @@
          "track": "5",
          "vehicleGroups": [
             {
-               "service": {
-                  "serviceName": "10"
-               },
+				"serviceRunRef": {
+						"serviceRunId": "8b4b6714-dfe0-4899-b370-7ad6efad54e0",
+						"serviceName": "10"
+				},
                "vehicles": [
                   {
                      "vehicleRef": {
@@ -587,7 +594,7 @@
          ]
       },
       {
-         "objectType": "Arrival",
+         "objectType": "ARRIVAL",
          "location": {
             "code": "urn:uic:stn:8015345",
             "name": "Aachen Hbf"
@@ -599,9 +606,10 @@
          "track": "9",
          "vehicleGroups": [
             {
-               "service": {
-                  "serviceName": "10"
-               },
+				"serviceRunRef": {
+						"serviceRunId": "8b4b6714-dfe0-4899-b370-7ad6efad54e0",
+						"serviceName": "10"
+				},
                "vehicles": [
                   {
                      "vehicleRef": {
@@ -699,7 +707,7 @@
          ]
       },
       {
-         "objectType": "Departure",
+         "objectType": "DEPARTURE",
          "location": {
             "code": "urn:uic:stn:8015345",
             "name": "Aachen Hbf"
@@ -707,16 +715,17 @@
          "plannedTime": "2023-05-18T20:21:00.0+01:00",
          "estimatedTime": "2023-05-18T20:26:00.0+01:00",
          "status": "DELAYED",
-         "reasonForDelay": "WAITING_FOR_DELAYED_PASSENGERS",
+         "reasonForDelay": ["WAITING_FOR_DELAYED_PASSENGERS"],
          "carrier": "2480",
          "significance": "MASTER",
          "stopId": "8015458_1",
          "track": "5",
          "vehicleGroups": [
             {
-               "service": {
-                  "serviceName": "10"
-               },
+				"serviceRunRef": {
+						"serviceRunId": "8b4b6714-dfe0-4899-b370-7ad6efad54e0",
+						"serviceName": "10"
+				},
                "vehicles": [
                   {
                      "vehicleRef": {
@@ -814,7 +823,7 @@
          ]
       },
       {
-         "objectType": "Arrival",
+         "objectType": "ARRIVAL",
          "location": {
             "code": "urn:uic:stn:8841004",
             "name": "Liège-Guillemins"
@@ -826,7 +835,7 @@
          "track": "3"
       },
       {
-         "objectType": "Departure",
+         "objectType": "DEPARTURE",
          "location": {
             "code": "urn:uic:stn:8841004",
             "name": "Liège-Guillemins"
@@ -838,7 +847,7 @@
          "track": "3"
       },
       {
-         "objectType": "Arrival",
+         "objectType": "ARRIVAL",
          "location": {
             "code": "urn:uic:stn:8812005",
             "name": "Bruxelles-Nord"
@@ -850,7 +859,7 @@
          "track": "3"
       },
       {
-         "objectType": "Departure",
+         "objectType": "DEPARTURE",
          "location": {
             "code": "urn:uic:stn8812005",
             "name": "Bruxelles-Nord"
@@ -862,7 +871,7 @@
          "track": "4"
       },
       {
-         "objectType": "Arrival",
+         "objectType": "ARRIVAL",
          "location": {
             "code": "urn:uic:stn:8814001",
             "name": "Bruxelles-Midi"

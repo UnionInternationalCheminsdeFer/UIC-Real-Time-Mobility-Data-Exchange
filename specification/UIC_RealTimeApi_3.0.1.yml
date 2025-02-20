@@ -765,7 +765,7 @@ components:
         countryBorderCrossings:
           description: applies in case the service is crossing the border between the specified countries in one of the border crossings
           $ref: "#/components/schemas/CountryBorderCrossings"
-        multiCarrierServicesOnly:
+        multiCarrierServiceRunsOnly:
           description: data will be provided for multi carrier services only 
           type: boolean
           default: false
@@ -1039,7 +1039,7 @@ components:
           maxItems: 100
           items:
             $ref: "#/components/schemas/ServiceRunReference"
-        replacingServices:
+        replacingServiceRuns:
           description: list of services replacing this service
           type: array
           maxItems: 100

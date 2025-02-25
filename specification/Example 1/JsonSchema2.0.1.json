@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "90918_4_definitions.json",
-  "$comment": "version 2.0.1",  
+  "$comment": "version 3.0.1",  
   "$ref": "#/definitions/ServiceRun",
   "definitions": {
       "DataDelivery": {
@@ -130,7 +130,7 @@
         "type": "object",
         "additionalProperties":false,	        
         "properties": {
-          "serviceRef": {
+          "serviceRunRef": {
             "$ref": "#/definitions/ServiceRunReference"
           },
           "status": {
@@ -138,7 +138,7 @@
           }
         },
         "required": [
-          "serviceRef",
+          "serviceRunRef",
           "status"
         ]
       },
@@ -650,7 +650,7 @@
       "ServiceRunSearchParams": {
         "type": "object",
         "properties": {
-          "serviceNumber": {
+          "serviceName": {
             "description": "commercial servide number (in case of trains the train number) used for communication with the customer. Eigther service or line number must be provided. Corresponds to servide number in MERITS.",
             "type": "string",
             "examples": [
@@ -709,7 +709,7 @@
               "$ref": "#/definitions/ServiceRunReference"
             }
           },
-          "replacingServices": {
+          "replacingServiceRuns": {
             "description": "list of services replacing this service",
             "type": "array",
             "items": {
@@ -774,7 +774,7 @@
               "11"
             ]
           },
-          "lineserviceRunId": {
+          "lineServiceRunId": {
             "description": "internal service number in case only the line number is used in customer communication",
             "type": "string",
             "examples": [

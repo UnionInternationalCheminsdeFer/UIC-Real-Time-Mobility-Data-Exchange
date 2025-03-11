@@ -1,0 +1,635 @@
+{
+	"info": {
+		"_postman_id": "8be34236-7629-459e-8d50-f9c0a41264c5",
+		"name": "RTDME public Consumer ACC API collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28352630"
+	},
+	"item": [
+		{
+			"name": "README.FIRST See body",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "This PostMan collection is for (manual) testing of the HitRail RTDME application.\n\nFirst, set up the correct COMPANY and PASSWORD variables in the collection\n\nThen run \"POST login\" with your valid credentials in the body. This will automatically set the token ID into the collection variables. After this all other request will pick up the token ID to authorize themselfs.\n"
+				},
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "01 login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"ID_TOKEN\", pm.response.json().IdToken);",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"{{COMPANY}}\",\n  \"password\": \"{{PASSWORD}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}login",
+					"host": [
+						"{{BASE_URL}}login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "11 subscriptions-post",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"console.log('Request name: ' + pm.execution.location.current);",
+							"",
+							"pm.collectionVariables.set('subscriptionId', pm.variables.replaceIn('{{$guid}}'));",
+							"console.log('subscriptionId = ' + pm.collectionVariables.get('subscriptionId'));"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{ID_TOKEN}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"{{subscription_id}}\",\n    \"company\": \"{{COMPANY}}\",\n    \"hook\": \"https://whatever.m.pipedream.net\",\n    \"user\": \"RTDMEUser\",\n    \"accessToken\": \"whatever\",\n    \"acceptedDelayTime\": 1073741831,\n    \"filters\": [\n        {\n            \"name\": \"myFilter\",\n            \"carriers\": [],\n            \"countries\": [],\n            \"countryCrossBorderOnly\": false,\n            \"multiCarrierServicesOnly\": false,\n            \"countryBorderCrossings\": [],\n            \"excludeBaseline\": false\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}3_0_0/subscriptions",
+					"host": [
+						"{{BASE_URL}}3_0_0"
+					],
+					"path": [
+						"subscriptions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "12 subscriptions-get",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"console.log('Request name: ' + pm.execution.location.current);",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{ID_TOKEN}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{BASE_URL}}3_0_0/subscriptions",
+					"host": [
+						"{{BASE_URL}}3_0_0"
+					],
+					"path": [
+						"subscriptions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "13 serviceruns-query",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"console.log('Request name: ' + pm.execution.location.current);",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{ID_TOKEN}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"serviceNumber\": \"100\",\n    \"fromPlannedStartDate\": \"2025-03-11T18:28:00.0+01:00\",\n    \"toPlannedStartDate\": \"2025-03-11T23:28:00.0+01:00\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}3_0_0/serviceruns/retrievebysearch",
+					"host": [
+						"{{BASE_URL}}3_0_0"
+					],
+					"path": [
+						"serviceruns",
+						"retrievebysearch"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "14x subscriptions-patch",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{ID_TOKEN}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"id\": \"e28de695-9a31-465f-9247-625b5a4fe1f0\",\n        \"company\": \"{{COMPANY}}\",\n        \"hook\": \"https://whatever.m.pipedream.net\",\n        \"user\": \"RTDMEUser\",\n        \"accessToken\":\"whatever\",\n        \"acceptedDelayTime\": 1073741831,\n        \"filters\": [\n            {\n                \"name\": \"myFilter\",\n                \"carriers\": [],\n                \"carrierFilterType\": \"INCLUDE\",\n                \"countries\": [],\n                \"countryFilterType\": \"INCLUDE\",\n                \"countryBorderCrossings\": [],\n                \"multiCarrierServicesOnly\": false,\n                \"countryCrossBorderOnly\": false\n            }\n        ]\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}3_0_0/subscriptions/5b7a064c-b722-4361-babb-5d140cb589ae",
+					"host": [
+						"{{BASE_URL}}3_0_0"
+					],
+					"path": [
+						"subscriptions",
+						"5b7a064c-b722-4361-babb-5d140cb589ae"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "15x subscriptions-delete",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{ID_TOKEN}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{BASE_URL}}3_0_0/subscriptions/e28de695-9a31-465f-9247",
+					"host": [
+						"{{BASE_URL}}3_0_0"
+					],
+					"path": [
+						"subscriptions",
+						"e28de695-9a31-465f-9247"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "31 serviceruns-get",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"console.log('Request name: ' + pm.execution.location.current);",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{ID_TOKEN}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{BASE_URL}}3_0_0/serviceruns/5906e4e5-b37b-4cd0-8d73-035af018be45",
+					"host": [
+						"{{BASE_URL}}3_0_0"
+					],
+					"path": [
+						"serviceruns",
+						"5906e4e5-b37b-4cd0-8d73-035af018be45"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "41 log-query LOGIN",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const moment = require('moment');",
+							"const fromTs = moment().subtract(1, \"hours\");",
+							"const formattedDateFromTs = fromTs.format('YYYY-MM-DD HH:mm:ss.SSSSSS');",
+							"const toTs = moment().add(1, \"hours\");",
+							"const formattedDateToTs = toTs.format('YYYY-MM-DD HH:mm:ss.SSSSSS');",
+							"",
+							"console.log('Request name: ' + pm.execution.location.current);",
+							"",
+							"pm.environment.set('currentdate-1', formattedDateFromTs);",
+							"console.log('fromTs = ' + pm.environment.get('currentdate-1'));",
+							"",
+							"pm.environment.set('currentdate+1', formattedDateToTs);",
+							"console.log('toTs = ' + pm.environment.get('currentdate+1'));",
+							"",
+							"pm.collectionVariables.set('logQueryId', pm.variables.replaceIn('{{$guid}}'));",
+							"console.log('logQueryId = ' + pm.collectionVariables.get('logQueryId'));"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{ID_TOKEN}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"query_id\": \"{{logQueryId}}\",\n  \"query_type\": \"LOGIN\",\n  \"company_id\": \"{{COMPANY}}\",\n  \"from_ts\": \"{{currentdate-1}}\",\n  \"to_ts\": \"{{currentdate+1}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}1/logs/retrieve",
+					"host": [
+						"{{BASE_URL}}1"
+					],
+					"path": [
+						"logs",
+						"retrieve"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "42 log-query CONSUMER_SUBSCRIPTION",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const moment = require('moment');",
+							"const fromTs = moment().subtract(1, \"hours\");",
+							"const formattedDateFromTs = fromTs.format('YYYY-MM-DD HH:mm:ss.SSSSSS');",
+							"const toTs = moment().add(1, \"hours\");",
+							"const formattedDateToTs = toTs.format('YYYY-MM-DD HH:mm:ss.SSSSSS');",
+							"",
+							"console.log('Request name: ' + pm.execution.location.current);",
+							"",
+							"pm.environment.set('currentdate-1', formattedDateFromTs);",
+							"console.log('fromTs = ' + pm.environment.get('currentdate-1'));",
+							"",
+							"pm.environment.set('currentdate+1', formattedDateToTs);",
+							"console.log('toTs = ' + pm.environment.get('currentdate+1'));",
+							"",
+							"pm.collectionVariables.set('logQueryId', pm.variables.replaceIn('{{$guid}}'));",
+							"console.log('logQueryId = ' + pm.collectionVariables.get('logQueryId'));"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{ID_TOKEN}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"query_id\": \"{{logQueryId}}\",\n  \"query_type\": \"CONSUMER_SUBSCRIPTION\",\n  \"company_id\": \"{{COMPANY}}\",\n  \"from_ts\": \"{{currentdate-1}}\",\n  \"to_ts\": \"{{currentdate+1}}\",\n  \"subscription_id\": \"\",\n  \"subscription_action_list\": [\n    \"CREATE\", \"GET\", \"UPDATE\", \"DELETE\", \"DAILY\" ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}1/logs/retrieve",
+					"host": [
+						"{{BASE_URL}}1"
+					],
+					"path": [
+						"logs",
+						"retrieve"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "43 log-query CONSUMER_GET",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const moment = require('moment');",
+							"const fromTs = moment().subtract(1, \"hours\");",
+							"const formattedDateFromTs = fromTs.format('YYYY-MM-DD HH:mm:ss.SSSSSS');",
+							"const toTs = moment().add(1, \"hours\");",
+							"const formattedDateToTs = toTs.format('YYYY-MM-DD HH:mm:ss.SSSSSS');",
+							"",
+							"console.log('Request name: ' + pm.execution.location.current);",
+							"",
+							"pm.environment.set('currentdate-1', formattedDateFromTs);",
+							"console.log('fromTs = ' + pm.environment.get('currentdate-1'));",
+							"",
+							"pm.environment.set('currentdate+1', formattedDateToTs);",
+							"console.log('toTs = ' + pm.environment.get('currentdate+1'));",
+							"",
+							"pm.collectionVariables.set('logQueryId', pm.variables.replaceIn('{{$guid}}'));",
+							"console.log('logQueryId = ' + pm.collectionVariables.get('logQueryId'));"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{ID_TOKEN}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"query_id\": \"{{logQueryId}}\",\n  \"query_type\": \"CONSUMER_GET\",\n  \"company_id\": \"{{COMPANY}}\",\n  \"from_ts\": \"{{currentdate-1}}\",\n  \"to_ts\": \"{{currentdate+1}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}1/logs/retrieve",
+					"host": [
+						"{{BASE_URL}}1"
+					],
+					"path": [
+						"logs",
+						"retrieve"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "43 log-query CONSUMER_QUERY",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const moment = require('moment');",
+							"const fromTs = moment().subtract(1, \"hours\");",
+							"const formattedDateFromTs = fromTs.format('YYYY-MM-DD HH:mm:ss.SSSSSS');",
+							"const toTs = moment().add(1, \"hours\");",
+							"const formattedDateToTs = toTs.format('YYYY-MM-DD HH:mm:ss.SSSSSS');",
+							"",
+							"console.log('Request name: ' + pm.execution.location.current);",
+							"",
+							"pm.environment.set('currentdate-1', formattedDateFromTs);",
+							"console.log('fromTs = ' + pm.environment.get('currentdate-1'));",
+							"",
+							"pm.environment.set('currentdate+1', formattedDateToTs);",
+							"console.log('toTs = ' + pm.environment.get('currentdate+1'));",
+							"",
+							"pm.collectionVariables.set('logQueryId', pm.variables.replaceIn('{{$guid}}'));",
+							"console.log('logQueryId = ' + pm.collectionVariables.get('logQueryId'));"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{ID_TOKEN}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"query_id\": \"{{logQueryId}}\",\n  \"query_type\": \"CONSUMER_QUERY\",\n  \"company_id\": \"{{COMPANY}}\",\n  \"from_ts\": \"{{currentdate-1}}\",\n  \"to_ts\": \"{{currentdate+1}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}1/logs/retrieve",
+					"host": [
+						"{{BASE_URL}}1"
+					],
+					"path": [
+						"logs",
+						"retrieve"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BASE_URL",
+			"value": "https://f9xmg08gbd.execute-api.eu-central-1.amazonaws.com/acc/",
+			"type": "default"
+		},
+		{
+			"key": "ID_TOKEN",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "logQueryId",
+			"value": ""
+		},
+		{
+			"key": "COMPANY",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "PASSWORD",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "subscriptionId",
+			"value": ""
+		}
+	]
+}

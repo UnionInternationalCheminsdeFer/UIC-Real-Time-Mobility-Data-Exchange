@@ -1440,7 +1440,7 @@ components:
           examples: 
             - "2024-07-14"
       required:
-       - timeTable
+       - name
        - version
          
     TimeTableserviceRunId:

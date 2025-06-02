@@ -483,7 +483,7 @@ components:
               significance:
                 $ref: "#/components/schemas/Significance"
               dataMaster:
-                description: company that provided the data as master of the data, emty in case the data was not provided by a data master
+                description: company that provided the data as master of the data, empty in case the data was not provided by a data master
                 $ref: "#/components/schemas/Company"
               alighting:
                  description: indicator for restricted alighting. true = alighting allowed
@@ -641,7 +641,7 @@ components:
               significance:
                  $ref: "#/components/schemas/Significance"
               dataMaster:
-                description: company that provided the data as master of the data, emty in case the data was not provided by a data master
+                description: company that provided the data as master of the data, empty in case the data was not provided by a data master
                 $ref: "#/components/schemas/Company"                 
               stopId:
                  description: uniqueId of the stop to distinguish multiple stops at the same station
@@ -874,7 +874,7 @@ components:
               significance:
                  $ref: "#/components/schemas/Significance"
               dataMaster:
-                description: company that provided the data as master of the data, emty in case the data was not provided by a data master
+                description: company that provided the data as master of the data, empty in case the data was not provided by a data master
                 $ref: "#/components/schemas/Company"                 
               type:
                 type: string

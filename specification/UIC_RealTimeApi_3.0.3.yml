@@ -511,10 +511,8 @@ components:
                   $ref: "#/components/schemas/Connection"
                 maxItems: 100  
           required:
-             - location 
              - carrier
              - significance
-             - plannedTime
 
     CancellationType:
        description: >-
@@ -682,10 +680,8 @@ components:
                 items:
                   $ref: "#/components/schemas/VehicleGroup"             
           required:
-             - location
              - carrier
              - significance
-             - plannedTime
 
     ErrorDescription:
       description: error description for an error that occurred in a queue
@@ -893,7 +889,6 @@ components:
                 description: handover from this infratstucture manager
                 $ref: "#/components/schemas/Company"                
           required:
-              - location
               - type  
 
     ServiceRunEventType:
@@ -1124,7 +1119,6 @@ components:
           maxItems: 100
           items:
              $ref: "#/components/schemas/ServiceBrand"   
-               
         timeTableReferences:
           description: |-
             references of this service to a technical service id used in a time table
@@ -1132,7 +1126,6 @@ components:
           maxItems: 100
           items:
             $ref: "#/components/schemas/TimeTableserviceRunId"    
-
         providerServiceRunIds:
           description: service ids of the data providers for this service
           type: array

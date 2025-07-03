@@ -1208,7 +1208,14 @@ components:
           format: uri
           examples:
             - "https://www.exampleCompany.com:8042/notifications"
+	      authorizationMethod:
+	         maxLength: 1024          
+           x-extensible-enum:
+             - BASIC_AUTH
+             - API_KEY
+	         default: BASIC_AUTH            
         user:
+          description: user in basic authentication or  APIKeyName in API-KEY authentiction
           type: string
           maxLength: 1024
           examples:
@@ -1240,12 +1247,20 @@ components:
           format: uri
           examples:
             - "https://www.exampleCompany.com:8042/notifications"
+	      authorizationMethod:
+	         maxLength: 1024          
+           x-extensible-enum:
+             - BASIC_AUTH
+             - API_KEY
+	         default: BASIC_AUTH              
         user:
+          description: user in basic authentication or  APIKeyName in API-KEY authentiction        
           type: string
           maxLength: 1024
           examples:
             - "UicRealTimePlatform"
         accessToken:
+          description: secret to be used for authentication. AccessToken in basic authentication or APIKeyValue in API-Key authentication
           type: string
           maxLength: 1024
           examples: 
@@ -1275,12 +1290,20 @@ components:
           format: uri
           examples:
             - "https://www.exampleCompany.com:8042/notifications"
+	      authorizationMethod:
+	         maxLength: 1024          
+           x-extensible-enum:
+             - BASIC_AUTH
+             - API_KEY
+	         default: BASIC_AUTH                 
         user:
+          description: user in basic authentication or  APIKeyName in API-KEY authentiction        
           type: string
           maxLength: 1024
           examples:
             - "UicRealTimePlatform"
         accessToken:
+          description: secret to be used for authentication. AccessToken in basic authentication or APIKeyValue in API-Key authentication
           type: string
           maxLength: 1024
           examples: 
@@ -1312,14 +1335,22 @@ components:
           format: uri
           examples:
             - "https://www.exampleCompany.com:8042/notifications"
+	      authorizationMethod:
+	         maxLength: 1024          
+           x-extensible-enum:
+             - BASIC_AUTH
+             - API_KEY
+	         default: BASIC_AUTH                 
         user:
+          description: user in basic authentication or  APIKeyName in API-KEY authentiction        
           type: string
           maxLength: 1024
           examples:
             - "UicRealTimePlatform"
         accessToken:
+          description: secret to be used for authentication. AccessToken in basic authentication or APIKeyValue in API-Key authentication
           type: string
-          maxLength: 32000
+          maxLength: 1024
           examples: 
             - "dGhpc19pc19hbl9hY2Nlc3NfdG9rZW4="
         acceptedDelayTime:

@@ -1498,6 +1498,10 @@ components:
           description: |- 
                service number for the vehicle group. This might be different from the main service number
           $ref: "#/components/schemas/ServiceRunReference"
+        cancelled:
+           description: indicated that the vehicle group has been cancelled at the event where this vehicle group is listed.
+           type: boolean
+           default: false     	  
         vehicles:
           type: array
           maxItems: 100

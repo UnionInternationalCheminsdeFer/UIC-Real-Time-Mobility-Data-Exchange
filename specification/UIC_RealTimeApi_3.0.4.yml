@@ -1,0 +1,1615 @@
+openapi: 3.1.0                                     
+info:
+  title: UIC 90918-11
+  version: 3.0.3
+  description: Specifications for the UIC Real Time API.
+
+
+webhooks:
+  serviceRunEvent:
+    post:
+      operationId: serviceRunUpdateHook
+      parameters:
+         - $ref: "#/components/parameters/idempotencyKey"
+      requestBody:
+        description: Information about a service run event (new service, delays, ..). The request will be repeated until it is confirmed. The repetition times will be doubled with each retry. Repetition ends after 1 day. The service confirms the acceptance of the data as soon as the data have been stored. Retrieving the referenced service is not included in the confirmation.
+        content:
+          application/json; profile="https://uic.org/rtd/2.0":
+            schema:
+              $ref: "#/components/schemas/ServiceRunUpdate"
+      responses:
+        "200":
+          description: Return a 200 status to indicate that the data was received successfully
+        "400":
+          description: bad request
+        "401":
+          description: unauthorized
+        "403":
+          description: forbidden
+        "406":
+          description: none of the the provided content versions in the profile is supported          
+        "409":
+          description: conflict - event already received  
+        "422": 
+          description: unprocessable entry - same idempotency key but different event
+        "500":
+          description: internal error
+        "501":
+          description: not implemented
+        "503":
+          description: unavailable    
+      
+paths:
+  /serviceruns:
+    post:
+      tags:
+        - ServiceRuns
+      summary: creates or replaces a service run
+      description: Creates a new service run or replaces an existing one. The sender is responsible to repeat the request in case the api service is not available. The idempotency key indicates a retry of the same request. 
+      operationId: postService
+      requestBody:
+        description: add or update a service run
+        content:
+          application/json; profile="https://uic.org/rtd/2.0":
+            schema:
+              $ref: "#/components/schemas/ServiceRun"
+      responses:
+        "200":
+          description: service created or updated
+        "400":
+          description: bad request
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/ErrorDescription"
+        "401":
+          description: unauthorized
+        "403":
+          description: forbidden
+        "406":
+          description: none of the the provided content versions in the profile is supported              
+        "409":
+          description: conflict - service already existing and idempotency key does not fit.
+        "422": 
+          description: unprocessable entry - same idempotency key different service
+        "500":
+          description: internal error
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/ErrorDescription"
+        "501":
+          description: not implemented
+        "503":
+          description: service currently unavailable
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/ErrorDescription"
+
+
+  /subscriptions:
+    get:
+      tags:
+        - Subscriptions
+      summary: get a list of all subscriptions
+      description: get the list of subscriptions
+      operationId: getSubscriptions
+      responses:
+        "200":
+          description: list of subscriptions made by the sender
+          content:
+            application/json; profile="https://uic.org/rtd/2.0":
+              schema:
+                $ref: "#/components/schemas/SubscriptionInfos"
+        "400":
+          description: bad request
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/ErrorDescription"
+        "401":
+          description: unauthorized
+        "403":
+          description: forbidden
+        "406":
+          description: none of the the provided content versions in the profile is supported         
+        "404":
+          description: no place information found
+        "500":
+          description: internal error
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/ErrorDescription"
+        "501":
+          description: not implemented
+        "503":
+          description: service currently unavailable
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/ErrorDescription"
+    
+    post:
+      tags:
+        - Subscriptions
+      summary: create a new subscription
+      description: new create a new subscription
+      operationId: subscribe
+      parameters:
+        - $ref: "#/components/parameters/idempotencyKey"
+      requestBody:
+        description: request for subscription
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SubscriptionPost"
+      responses:
+        "200":
+          description: Subscription accepted, id is provided
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Subscription"
+        "400":
+          description: bad request
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/ErrorDescription"
+        "401":
+          description: unauthorized
+        "403":
+          description: forbidden
+        "406":
+          description: none of the the provided content versions in the profile is supported            
+        "409":
+          description: conflict - subscription already existing  
+        "500":
+          description: internal error
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/ErrorDescription"
+        "501":
+          description: not implemented
+        "503":
+          description: service currently unavailable
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/ErrorDescription"
+
+  /subscriptions/{id}:
+    delete:
+      tags:
+          - Subscriptions
+      summary: delete a subscription
+      description: delete a subscription
+      operationId: deleteSubscription
+      parameters:
+          - in: path
+            name: id
+            schema:
+              type: string
+              format: uuid
+            example:
+              - "1317155f-a458-429f-8b2d-b5b5a677def4"
+            required: true
+            description: ID of the subscription to delete.
+      responses:
+        "204":
+          description: ok No Content
+        "400":
+           description: bad request
+           content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/ErrorDescription"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+        "409":
+          description: conflict
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/ErrorDescription"
+        "500":
+          description: internal error
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/ErrorDescription"
+        "501":
+          description: Not implemented
+        "503":
+          description: service currently unavailable
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/ErrorDescription"
+
+    patch:
+      tags:
+          - Subscriptions
+      summary: patch a subscription with new user and accesss token or uri
+      description: patch a subscription
+      operationId: patchSubscription
+      parameters:
+          - $ref: "#/components/parameters/idempotencyKey"
+          - in: path
+            name: id
+            schema:
+              type: string
+              maxLength: 1024              
+            example: 
+              - "1317155f-a458-429f-8b2d-b5b5a677def4"
+            required: true
+            description: ID of the subscription to patch.          
+      requestBody:
+        description: request for subscription
+        content:
+          application/json; profile="https://uic.org/rtd/2.0":
+            schema:
+              $ref: "#/components/schemas/SubscriptionPatch"          
+      responses:
+        "204":
+          description: ok No Content
+        "400":
+          description: bad request
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/ErrorDescription"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "406":
+          description: none of the the provided content versions in the profile is supported         
+        "404":
+          description: Not Found
+        "409":
+          description: conflict
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/ErrorDescription"
+        "500":
+          description: internal error
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/ErrorDescription"
+        "501":
+          description: Not implemented
+        "503":
+          description: service currently unavailable
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/ErrorDescription"
+
+  /serviceruns/{serviceRunId}:
+    get:
+      tags:
+        - ServiceRuns
+      summary: returns a service run by service run id
+      description: returns a service updated in the service update received via the web hook
+      operationId: getServiceRun
+      parameters:
+        - in: path
+          name: serviceRunId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: ID of the service run to get.
+      responses:
+        "200":
+          description: the requested service run
+          content:
+            application/json; profile="https://uic.org/rtd/2.0":
+              schema:
+                $ref: "#/components/schemas/ServiceRun"
+        "400":
+          description: bad input parameter
+        "401":
+          description: unauthorized
+        "403":
+          description: forbidden
+        "406":
+          description: none of the the provided content versions in the profile is supported       
+        "404":
+          description: no place information found
+        "500":
+          description: internal error
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/ErrorDescription"
+        "501":
+          description: not implemented
+        "503":
+          description: service currently unavailable
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/ErrorDescription"
+
+  /serviceruns/retrievebyids:
+    post:
+      tags:
+        - ServiceRuns
+      summary: returns service runs by service run ids 
+      description: returns the latest version of the serivce runs 
+      operationId: getServiceRuns
+      requestBody:
+        description: IDs of the service runs to get
+        content:
+          application/json; profile="https://uic.org/rtd/2.0":
+            schema:
+              $ref: "#/components/schemas/ServiceRunIds"
+      responses:
+        "200":
+          description: the requested service run
+          content:
+             application/json; profile="https://uic.org/rtd/2.0":
+              schema:
+                $ref: "#/components/schemas/ServiceRuns"
+        "400":
+          description: bad input parameter
+        "401":
+          description: unauthorized
+        "403":
+          description: forbidden
+        "406":
+          description: none of the the provided content versions in the profile is supported       
+        "404":
+          description: no place information found
+        "500":
+          description: internal error
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/ErrorDescription"
+        "501":
+          description: not implemented
+        "503":
+          description: service currently unavailable
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/ErrorDescription"
+
+  /serviceruns/retrievebysearch:
+    post:        
+      tags:
+        - ServiceRuns
+      summary: finds service runs by the service name, travel date, country, ... 
+      description: finds service runs by the service name, travel datee, country, ... 
+      operationId: searchServiceRuns
+      requestBody:
+        description: search parameter to search for service runs
+        content:
+          application/json; profile="https://uic.org/rtd/2.0":
+            schema:
+              $ref: "#/components/schemas/ServiceRunSearchParams"
+      responses:
+        "200":
+          description: the service runs for which the id is provided
+          content:
+            application/json; profile="https://uic.org/rtd/2.0":
+              schema:
+                $ref: "#/components/schemas/ServiceRuns"
+        "400":
+          description: bad request
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/ErrorDescription"
+        "401":
+          description: unauthorized
+        "403":
+          description: forbidden
+        "406":
+          description: none of the the provided content versions in the profile is supported            
+        "404":
+          description: no service found
+        "500":
+          description: internal error
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/ErrorDescription"
+        "501":
+          description: not implemented
+        "503":
+          description: service currently unavailable
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/ErrorDescription"    
+          
+          
+security:
+  - oAuth2ClientCredentials: []
+            
+            
+components:
+
+  securitySchemes:
+    oAuth2ClientCredentials:
+      type: oauth2
+      description: See http://https://oauth.net/2/
+      flows: 
+        clientCredentials: 
+          tokenUrl: https://xxx.xxx.xxx/oauth2/token/
+          scopes: {} # not used
+
+  parameters:
+
+    idempotencyKey:
+      name: Idempotency-Key
+      in: header
+      description: The HTTP Idempotency request header field can be used to carry idempotency key in order to make non-idempotent HTTP methods such as POST or PATCH fault-tolerant.
+      schema:
+        type: string
+        format: uuid
+      required: false
+      example:
+        - "99a28fde-b08b-450f-8691-38a5d2faa7b8"
+      
+  schemas:
+        
+    Arrival:
+      allOf:
+        - $ref: "#/components/schemas/TimeTabledServiceRunEvent"
+        - type: object    
+          properties:   
+              carrier:
+                 $ref: "#/components/schemas/Company"
+              stopId:
+                 description: uniqueId of the stop to distinguish multiple stops at the same station
+                 type: string
+                 maxLength: 1024
+                 examples:
+                   - "2f31d510-5944-4280-a90b-32ec0ba86965"          
+              significance:
+                $ref: "#/components/schemas/Significance"
+              dataMaster:
+                description: company that provided the data as master of the data, empty in case the data was not provided by a data master
+                $ref: "#/components/schemas/Company"
+              alighting:
+                 description: indicator for restricted alighting. true = alighting allowed
+                 type: boolean
+                 default: true                
+              vehicleGroups:
+                description: groups of vehicles. Multiple groups can be used to describe connected service parts with separate service names.
+                type: array
+                maxItems: 50
+                items:
+                  $ref: "#/components/schemas/VehicleGroup"
+              platform:
+                type: string
+                maxLength: 1024
+                examples:
+                 - 13B
+              track:
+                type: string
+                maxLength: 1024
+                examples:
+                 - "13B"
+              connections:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Connection"
+                maxItems: 100  
+          required:
+             - carrier
+             - significance
+
+    CancellationType:
+       description: >-
+             details on the cause of cancellation. Either cancelled by 
+             the Carrier by sending the cancel information (CANCELLED_BY_CARRIER) or cancelled as the Carrier did not 
+             send the stop compared to the reference time table (MISSING_FROM_CARRIER) or the service is not any more included 
+             in a new time table update (MISSING_FROM_TIMETABLE) .
+       type: string
+       maxLength: 1024
+       x-extensible-enum:
+             - MISSING_FROM_CARRIER
+             - CANCELLED_BY_CARRIER  
+             - MISSING_FROM_TIMETABLE
+
+
+    DelayStatus:
+      type: string
+      enum:
+        - UNKNOWN
+        - CANCELLED
+        - DELAYED
+        - ON_SCHEDULE
+      
+    ConnectionStatus:
+      type: string
+      enum:
+        - LOST
+        - KEPT
+        - AT_RISK
+      
+    Connection:
+      type: object
+      properties:
+        serviceRunRef:
+          $ref: "#/components/schemas/ServiceRunReference"
+        status:
+          $ref: "#/components/schemas/ConnectionStatus"
+      required:
+        - serviceRunRef
+        - status
+    
+    
+    Company:
+      description: |-
+        company code. TAP-TSI code in case of rail. Code list to be qualified by urn.
+      type: string
+      maxLength: 1024
+      examples:
+       - "urn:uic:rics:2480"
+       - "urn:uic:rics:1184"
+       - "urn:uic:rics:0084"
+       
+    Country:
+      description: |
+        ISO 3166 2A country code.
+      type: string
+      pattern: "^[A-Z]{2}$"
+      examples:
+       - DE
+       - NL      
+
+    CountryBorderCrossing:
+      description: crossing between two countries
+      type: array
+      minItems: 2
+      maxItems: 2
+      items:
+        $ref: "#/components/schemas/Country"
+
+    CountryBorderCrossings:
+      type: array
+      maxItems: 200
+      description: List of country code pairs for border crossings.
+      items:
+        $ref: "#/components/schemas/CountryBorderCrossing"
+
+    DataDelivery:
+      type: object
+      properties:
+        id:
+          description: id of the data delivery used for tracking and error reporting
+          type: string
+          format: uuid
+          examples: 
+            - "149c9b31-9b75-43e7-8677-22c8348cdb66"
+        provider:
+          $ref: "#/components/schemas/Company"
+        creationTime:
+          description: "creation date of the data. New data will replace all older data "
+          $ref: "#/components/schemas/DateTime"              
+        contributingProviders:
+          description: list of contributing providers in case of consolidated data
+          type: array
+          maxItems: 50
+          items:
+            $ref: "#/components/schemas/Company"
+      required:
+        - id
+        - provider
+        - creationTime 
+
+    DateTime:
+      description: UTC date in format YYYY-MM-DDThh:mm:ss.sTZD. TZD must be given as offset (eg. 1997-07-16T19:20:30.45+01:00)
+      type: string
+      format: date-time
+      examples: 
+        - "2023-07-16T19:20:30.45+01:00"
+
+              
+    DelayReason:
+      description: reason code for delays uic codes
+      type: string
+      maxLength: 1024
+      examples: 
+        - "urn:uic:delayreason:WAITING_FOR_DELAYED_PASSENGERS"
+
+    Departure:
+      allOf:
+        - $ref: '#/components/schemas/TimeTabledServiceRunEvent'
+        - type: object    
+          properties:
+              carrier:
+                 $ref: "#/components/schemas/Company"
+              significance:
+                 $ref: "#/components/schemas/Significance"
+              dataMaster:
+                description: company that provided the data as master of the data, empty in case the data was not provided by a data master
+                $ref: "#/components/schemas/Company"                 
+              stopId:
+                 description: uniqueId of the stop to distinguish multiple stops at the same station
+                 type: string
+                 maxLength: 1024
+                 examples:
+                   - "2f31d510-5944-4280-a90b-32ec0ba86965"
+              boarding:
+                 description: indicator for restricted boarding 
+                 type: boolean
+                 default: true   
+              occupancy:
+                 type: string
+                 maxLength: 1024                 
+                 x-extensible-enum:
+                   - EMPTY
+                   - MANY_SEATS_AVAILABLE
+                   - FEW_SEATS_AVAILABLE
+                   - STANDING_ROOM_ONLY
+                   - NOT_ACCEPTING_PASSENGERS
+              congestion:
+                 description: e.g. stuck in traffic jam, no delay estimation available
+                 type: boolean
+              platform:
+                type: string
+                maxLength: 1024
+                examples:
+                 - 13B
+              track:
+                type: string
+                maxLength: 1024
+                examples:
+                 - "13B"         
+              vehicleGroups:
+                description: groups of vehicles. Multiple groups can be used to describe connected service parts with separate service names.
+                type: array
+                maxItems: 100
+                items:
+                  $ref: "#/components/schemas/VehicleGroup"             
+          required:
+             - carrier
+             - significance
+
+    ErrorDescription:
+      description: error description for an error that occurred in a queue
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - SCHEMA_VIOLATION
+            - OTHER
+          exmples:
+            - SCHEMA_VIOLATION
+        time:
+          type: string
+          format: date-time
+        severity:
+          type: string
+          enum:
+            - ERROR
+            - WARNING
+            - INFO
+          examples:
+            - ERROR
+        dataPayload:
+          description: base64 encoded data payload that caused the error
+          type: string
+          maxLength: 2000000
+          contentEncoding: base64
+          examples: 
+            - "dGhpc19pc19hX3BheWxvYWQ="
+        description:
+          type: string
+          maxLength: 32000
+          examples: 
+            - "Format error at position 133 of the message"
+        correlationId:
+          description: correlation id of the data delivery that caused the error
+          type: string
+          maxLength: 1024
+          examples:
+            - "ed4ddf24-7b60-42c9-a10b-fb8c35cd8b44"
+      required:
+        - type
+        - time
+        - severity
+    
+    Filter:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          maxLength: 1024
+        carriers:
+          description: carriers to filter
+          type: array
+          maxitems: 1000
+          items:
+            $ref: "#/components/schemas/Company"
+          examples:
+            - "[1080],[1087]"  
+        carrierFilterType:
+          type: string
+          maxLength: 1024
+          x-extensible-enum:
+           - INCLUDE   : selects services where ANY of the specified carriers serve any part of the service.
+           - EXCLUSIVE : selects services where ANY of the specified carriers serve all parts of the service. In this case, services run by multiple carriers are not included in the selection.
+           - EXCLUDE   : selects services where NONE of the specified companies are the carrier for any part of the service.
+        countries:
+          description: countries to be filtered
+          type: array
+          maxItems: 500
+          items:          
+            $ref: "#/components/schemas/Country"
+        countryFilterType:
+          type: string
+          maxLength: 1024          
+          x-extensible-enum:
+           - INCLUDE   : select services where ANY of these countries is part of the route of the service. In this case, international services running at least partly in any of those countries are included in the selection.
+           - EXCLUSIVE : select services where the route of the service is run completely inside ANY of these countries. In this case, international services across the provided countries are not included in the selection.
+           - EXCLUDE   : select services where NONE of the specified countries are any part of the service. 
+        countryBorderCrossings:
+          description: applies in case the service is crossing the border between the specified countries in one of the border crossings
+          $ref: "#/components/schemas/CountryBorderCrossings"
+        multiCarrierServiceRunsOnly:
+          description: data will be provided for multi carrier services only 
+          type: boolean
+          default: false
+        countryCrossBorderOnly:
+          description: data will be provided for services crossing country borders only 
+          type: boolean
+          default: false        
+
+    GeoTracking:
+      allOf:
+        - type: object
+          description: |-
+               Geo-Tracking-Event on a service run. Documents the position of a service (or vehicle group of a service) at a time.
+          properties:
+              objectType:
+                "$ref": "#/components/schemas/ServiceRunEventType"
+              time:
+                description: time when the service was at the provided position
+                type: string
+                format: date-time
+                examples:
+                  - "2024-07-14T19:43:37+01:00"       
+              position:
+                $ref: '#/components/schemas/GeoPosition'
+              carrier:
+                 $ref: "#/components/schemas/Company"
+              vehicleGroupRefs:
+                description: groups of vehicles where this geo-position applies
+                type: array
+                maxItems: 50
+                items:
+                  $ref: "#/components/schemas/VehicleGroupRef"  
+          required:
+              - objectType
+              - time
+              - position
+
+    GeoPosition:
+      type: object
+      additionalProperties: false
+      description: |-
+        WGS84 coordinates position. Provided by OJP.
+      required:
+        - longitude
+        - latitude
+      properties:
+        longitude:
+          $ref: '#/components/schemas/Longitude'
+        latitude:
+          $ref: '#/components/schemas/Latitude'
+
+    Latitude:
+      type: number
+      format: double
+      description: |-
+        Latitude from equator. -90 (South) to +90 (North). Decimal degrees. e.g. 56.356.
+      minimum: -90
+      maximum: 90
+      examples: 
+        - 47.37818
+
+
+    Location:
+      description: |-
+             location code: either merits code or from another code list formatted as urn
+      type: object
+      properties: 
+        code: 
+          type: string
+          maxLength: 1024
+          examples:
+            - "urn:uic:stn:8512345"
+            - "urn:NL:nationalLocations:8512345"
+        name:
+          type: string
+          maxLength: 1024
+          examples:
+            - "Amsterdam Centraal"
+            - "Berlin Hbf"
+        country:
+          $ref: "#/components/schemas/Country"               
+      required:
+        - code
+
+    Longitude:
+      type: number
+      format: double
+      description: |-
+        Longitude from Greenwich Meridian. -180 (West) to +180 (East). Decimal degrees. eg 2.356.
+      minimum: -180
+      maximum: 180
+      examples: 
+        - 8.54021
+        
+    PassThrough:
+      allOf:
+        - $ref: '#/components/schemas/TimeTabledServiceRunEvent'
+        - type: object
+          properties:       
+              significance:
+                 $ref: "#/components/schemas/Significance"
+              dataMaster:
+                description: company that provided the data as master of the data, empty in case the data was not provided by a data master
+                $ref: "#/components/schemas/Company"                 
+              type:
+                type: string
+                maxLength: 1024
+                x-extensible-enum:
+                  - STATION
+                  - IM_HAND_OVER
+                  - IM_POINT
+                examples:
+                  - "STATION"                  
+              carrier:
+                 $ref: "#/components/schemas/Company"
+              fromIM:
+                $ref: "#/components/schemas/Company"
+              toIM:
+                description: handover from this infratstucture manager
+                $ref: "#/components/schemas/Company"                
+          required:
+              - type  
+
+    ServiceRunEventType:
+      description: discriminator for inheritance between data types
+      type: string
+      maxLength: 1024      
+      x-extensible-enum:
+        - ARRIVAL
+        - DEPARTURE
+        - PASS_THROUGH
+        - GEO_TRACKING
+
+    ServiceRunIds:
+      description: list of service run ids
+      type: object
+      properties:
+        serviceRunIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          minItems: 1
+          maxItems: 100
+      required: 
+        - ServiceRunIds    
+
+    ServiceRunUpdate:
+      description: information on an event that has created or altered a service
+      type: object
+      properties:
+        id: 
+          type: string
+          format: uuid  
+          examples: 
+            - "3fd02c20-c53a-4eee-80b4-0fbb8de3ae98"
+        serviceRunNotifications:
+          type: array
+          items:
+            $ref: "#/components/schemas/ServiceRunNotification"
+          minItems: 1
+          maxItems: 100
+        timestamp:
+          $ref: "#/components/schemas/DateTime"     
+      required:
+        - id     
+        - serviceRunNotifications
+        - timestamp
+
+    ServiceRunNotification:
+      description: Notification on a service run change
+      type: object
+      properties:
+        eventType:
+          type: string
+          enum: 
+            - NEW
+            - MODIFY
+            - DELETE
+          examples:
+            - "MODIFY"
+        changeIndications:
+          description: list of change indicators compared to the previous notification 
+          type: array
+          maxItems: 100
+          items:
+            type: string
+            maxLength: 1024            
+            x-extensible-enum:
+              - DELAY_CHANGE
+              - STOP_CANCELLED
+              - STOP_ADDED
+              - NEW_GEO_TRACKING
+              - PLATFORM_CHANGE
+              - CONNECTION_CHANGE
+        serviceRunId:  
+          description: id of the service run changed
+          type: string
+          format: uuid
+          examples: 
+            - "3fd02c20-c53a-4eee-80b4-0fbb8de3ae97"    
+        dataDeliveryId:
+          description: data delivery id that caused the change
+          type: string
+          format: uuid
+        dataDeliveryProvider:
+          description: data provider that caused the change
+          $ref: "#/components/schemas/Company"
+  
+      required:
+          - eventType
+          - serviceRunId
+
+    ServiceRuns:
+      type: array
+      items:
+        $ref: "#/components/schemas/ServiceRun"
+      minItems: 1
+      maxItems: 100
+        
+    ServiceRunSearchParams:
+      type: object
+      properties:    
+        serviceName:
+          description: |-
+            commercial service name (in case of trains the train number) used for
+            communication with the customer. Either service or line number must
+            be provided. Corresponds to service number in MERITS.
+          type: string
+          maxLength: 1024
+          examples: 
+            - "4711"
+            - "B200"
+        lineName:
+          type: string
+          maxLength: 1024
+          examples:
+            - "11"
+            - "Circle Line"
+        fromPlannedStartDate:
+          description: minimum (inclusive) planned travel date in local time
+          type: string
+          format: date-time
+          examples:
+            - "2024-07-14T19:43:37+01:00"
+        toPlannedStartDate:
+          description: maximum (exclusive) planned travel date in local time
+          type: string
+          format: date-time
+          examples:
+            - "2024-07-14T19:43:37+01:00"
+        country:
+          description: a country where the serice must run
+          $ref: "#/components/schemas/Country"
+        carrier:
+          description: a carrier involved in the service
+          $ref: "#/components/schemas/Company"
+        
+    ServiceRun:
+      type: object
+      properties:
+        dataDelivery:
+          description: |-
+            main service reference for this service run. The service reference might 
+            change along the route, the changed service references are then included
+            in the departure event for the next part of the route
+          $ref: "#/components/schemas/DataDelivery"
+        serviceRunRef:
+          $ref: "#/components/schemas/ServiceRunReference"
+        replacedServiceRuns:
+          description: list of services replaced by this service
+          type: array
+          maxItems: 100
+          items:
+            $ref: "#/components/schemas/ServiceRunReference"
+        replacingServiceRuns:
+          description: list of services replacing this service
+          type: array
+          maxItems: 100
+          items:
+            $ref: "#/components/schemas/ServiceRunReference"       
+        timeTableReference:
+           description: reference to a time table
+           $ref: "#/components/schemas/TimeTableReference"     
+        events:
+          description: list of events along the service run ordered by time
+          type: array
+          maxItems: 500
+          items:          
+             $ref: "#/components/schemas/ServiceRunEvent"
+        cancelled:
+          description: default false
+          type: boolean
+          default: false
+        cancellationType:
+          $ref: "#/components/schemas/CancellationType"     
+        facilities:
+          description: |-
+            facilities available on the whole routes of the service run. Additional
+            facilities on specific sections are part of the VehicleStop object of the departure of the section
+          type: array
+          maxItems: 500
+          items:
+            description: OSDM code list
+            type: string
+            maxLength: 1024
+          examples:
+            - "ALIGHTING_POSSIBLE_30M"
+            - "NURSERY_SERVICE"          
+      required:
+        - dataDelivery
+        - serviceRunRef
+        - events
+    
+    ServiceRunReference:
+      type: object
+      properties:
+        serviceRunId:
+          description: unique id of the service run in the real time platform
+          type: string
+          maxLength: 1024
+          examples: 
+            - "5179f99c-f52d-4b51-a3a7-daa71b69bbe2"
+        serviceName:
+          description: |-
+            commercial service name (in case of trains the train number) used for
+            communication with the customer. Either service or line number must
+            be provided
+          type: string
+          maxLength: 1024
+          examples: 
+           - "4711"
+        lineName:
+          type: string
+          maxLength: 1024
+          examples:
+            - "11"
+        lineServiceRunId:
+          description: >-
+            in case only the line number is used in
+            customer communication
+          type: string
+          maxLength: 1024
+          examples:
+            - "1234511"
+        serviceBrands:
+          description: service brands in case the service is marketed under different brands
+          type: array
+          maxItems: 100
+          items:
+             $ref: "#/components/schemas/ServiceBrand"   
+        timeTableReferences:
+          description: |-
+            references of this service to a technical service id used in a time table
+          type: array
+          maxItems: 100
+          items:
+            $ref: "#/components/schemas/TimeTableserviceRunId"    
+        providerServiceRunIds:
+          description: service ids of the data providers for this service
+          type: array
+          maxItems: 100
+          items:
+            $ref: "#/components/schemas/ProviderServiceRunId"
+      required:
+        - serviceRunId
+        - serviceName
+
+    ProviderServiceRunId:
+      description: service run id in the ream of a data provider
+      type: object
+      properties:
+        provider:
+          $ref: "#/components/schemas/Company"            
+        serviceRunId:
+          type: string
+          maxLength: 1024
+          examples:
+            - "43b65be1-dce9-42a3-b4df-9b8153129eae"
+      required:
+        - provider
+        - serviceRunId 
+
+    ServiceBrand:
+      description: |-
+         service brand code of urn providing a code from another code list.
+      type: object
+      properties:
+        code:
+          type: string
+          maxLength: 1024
+          examples:
+              - "urn:uic:sbc:51"
+        abbreviation:
+          type: string
+          maxLength: 1024
+          examples:
+            - "ICE"    
+    
+    Significance:
+      description: |-
+        indication whether the provider is responsible for these data or whether
+        he has forwarded these data for convenience only. In the later case the platform might replace these with data from the carier when available.
+      type: string
+      enum:
+        - FORWARDED
+        - MASTER
+
+    StopStatus:
+      type: string
+      maxLength: 1024      
+      x-extensible-enum:
+        - PLANNED
+        - ON_REQUEST
+        - REQUESTED
+      default: PLANNED
+      
+    SubscriptionInfos:
+      type: array      
+      maxItems: 500
+      items:
+        $ref: "#/components/schemas/SubscriptionInfo"
+
+    SubscriptionInfo:
+      description: the subscription without the access token.
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          examples:  
+            - "e28de695-9a31-465f-9247-625b5a4fec74"
+        company:
+          $ref: "#/components/schemas/Company"
+        hook:
+          type: string
+          maxLength: 1024
+          format: uri
+          examples:
+            - "https://www.exampleCompany.com:8042/notifications"
+        authorizationMethod:
+          type: string
+          maxLength: 1024          
+          x-extensible-enum:
+             - BASIC_AUTH
+             - API_KEY
+          default: BASIC_AUTH            
+        user:
+          description: user in basic authentication or  APIKeyName in API-KEY authentication
+          type: string
+          maxLength: 1024
+          examples:
+            - "UicRealTimePlatform"
+            - "X-API-KEY"	    
+        acceptedDelayTime:
+          description: accepted delay in seconds to allow Notifications on a collection of services to reduce the number of messages.
+          type: integer
+          format: int32
+        filters:
+          description: listed filters apply separately (OR)
+          type: array
+          maxItems: 500
+          items:
+            $ref: "#/components/schemas/Filter"
+      required:
+        - id
+        - company
+        - hook
+        - user
+
+    SubscriptionPost:
+      type: object
+      properties:
+        company:
+          $ref: "#/components/schemas/Company"
+        hook:
+          type: string
+          maxLength: 1024          
+          format: uri
+          examples:
+            - "https://www.exampleCompany.com:8042/notifications"
+        authorizationMethod:
+          type: string
+          maxLength: 1024          
+          x-extensible-enum:
+             - BASIC_AUTH
+             - API_KEY
+          default: BASIC_AUTH              
+        user:
+          description: user in basic authentication or  APIKeyName in API-KEY authentication        
+          type: string
+          maxLength: 1024
+          examples:
+            - "UicRealTimePlatform"
+            - "X-API-KEY"	    
+        accessToken:
+          description: secret to be used for authentication. AccessToken in basic authentication or APIKeyValue in API-Key authentication
+          type: string
+          maxLength: 1024
+          examples: 
+            - "dGhpc19pc19hbl9hY2Nlc3NfdG9rZW4="
+            - "abcd-x3454-84672455-eadjber-xcdsad4562323sdadaftwr423423refs24243432"
+        acceptedDelayTime:
+          description: accepted delay in seconds to allow Notifications on a collection of services to reduce the number of messages.
+          type: integer
+          format: int32            
+        filters:
+          description: listed filters apply separately (OR)
+          type: array
+          maxItems: 500
+          items:
+            $ref: "#/components/schemas/Filter"
+      required:
+        - id
+        - company
+        - hook
+        - user
+        - accessToken
+
+    SubscriptionPatch:
+      type: object
+      properties:
+        hook:
+          type: string
+          format: uri
+          examples:
+            - "https://www.exampleCompany.com:8042/notifications"
+        authorizationMethod:
+          maxLength: 1024
+          x-extensible-enum:
+             - BASIC_AUTH
+             - API_KEY
+          default: BASIC_AUTH                 
+        user:
+          description: user in basic authentication or  APIKeyName in API-KEY authentiction        
+          type: string
+          maxLength: 1024
+          examples:
+            - "UicRealTimePlatform"
+            - "X-API-KEY"
+        accessToken:
+          description: secret to be used for authentication. AccessToken in basic authentication or APIKeyValue in API-Key authentication
+          type: string
+          maxLength: 1024
+          examples: 
+            - "dGhpc19pc19hbl9hY2Nlc3NfdG9rZW4="
+            - "abcd-x3454-84672455-eadjber-xcdsad4562323sdadaftwr423423refs24243432"
+        acceptedDelayTime:
+          description: accepted delay in seconds to allow Notifications on a collection of services to reduce the number of messages.
+          type: integer
+          format: int32            
+        filters:
+          description: listed filters apply separately (OR)
+          type: array
+          maxItems: 500
+          items:
+            $ref: "#/components/schemas/Filter"
+    
+    Subscription:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          examples:  
+            - "e28de695-9a31-465f-9247-625b5a4fec74"
+        company:
+          $ref: "#/components/schemas/Company"
+        hook:
+          type: string
+          maxLength: 1024          
+          format: uri
+          examples:
+            - "https://www.exampleCompany.com:8042/notifications"
+        authorizationMethod:
+          type: string 
+          maxLength: 1024          
+          x-extensible-enum:
+             - BASIC_AUTH
+             - API_KEY
+          default: BASIC_AUTH                 
+        user:
+          description: user in basic authentication or  APIKeyName in API-KEY authentiction        
+          type: string
+          maxLength: 1024
+          examples:
+            - "UicRealTimePlatform"
+            - "X-API-KEY"
+        accessToken:
+          description: secret to be used for authentication. AccessToken in basic authentication or APIKeyValue in API-Key authentication
+          type: string
+          maxLength: 1024
+          examples: 
+            - "dGhpc19pc19hbl9hY2Nlc3NfdG9rZW4="
+            - "abcd-x3454-84672455-eadjber-xcdsad4562323sdadaftwr423423refs24243432"
+        acceptedDelayTime:
+          description: accepted delay in seconds to allow Notifications on a collection of services to reduce the number of messages.
+          type: integer
+          format: int32            
+        filters:
+          description: listed filters apply separately (OR)
+          type: array
+          maxItems: 500
+          items:
+            $ref: "#/components/schemas/Filter"
+      required:
+        - id
+        - company
+        - hook
+        - user
+        - accessToken
+
+    ServiceRunEvent:
+      description: Event on a service run. This could either be a departure, arrival, a pass through or a geo-tracking.
+      type: object
+      anyOf:
+          - $ref: "#/components/schemas/Arrival"
+          - $ref: "#/components/schemas/Departure"
+          - $ref: "#/components/schemas/PassThrough"
+          - $ref: "#/components/schemas/GeoTracking"
+      discriminator:
+        propertyName: objectType
+        mapping:
+          ARRIVAL: "#/components/schemas/Arrival"
+          DEPARTURE: "#/components/schemas/Departure"
+          PASS_THROUGH: "#/components/schemas/PassThrough"
+          GEO_TRACKING: "#/components/schemas/GeoTracking"
+      required:
+        - objectType
+      
+    TimeTabledServiceRunEvent:
+          type: object        
+          description: |-
+             Event on a service run. This could either be a departure, arrival or a pass through.
+          properties:
+            objectType:
+              "$ref": "#/components/schemas/ServiceRunEventType"
+            location:
+              $ref: "#/components/schemas/Location" 
+            plannedTime:
+              description: planned time according to the data provider of the event 
+              type: string
+              format: date-time
+              examples:
+                - "2024-07-14T19:43:37+01:00"
+            timeTabledTime:
+              description: planned time according to the referenced time table
+              type: string
+              format: date-time
+              examples:
+               - "2024-07-14T19:43:37+01:00"
+            consolidatedEstimatedTime:
+              description: |-
+                  estimation consolidated by the exchange platform to be consistent across multiple involved carriers
+              type: string
+              format: date-time   
+              examples:
+                - "2024-07-14T19:43:37+01:00"                
+            estimatedTime:
+              type: string
+              format: date-time
+              examples:
+               - "2024-07-14T19:43:47+01:00"
+            actualTime:
+              description: Time when the arrival actually occured. Provided after arrival only.
+              type: string
+              format: date-time
+              examples:
+                - "2024-07-14T19:43:46+01:00"   
+            status:
+              $ref: "#/components/schemas/DelayStatus"  
+            stopStatus:
+              $ref: "#/components/schemas/StopStatus"   
+            cancelled:
+               description: default false
+               type: boolean
+               default: false                
+            cancellationType:
+               $ref: "#/components/schemas/CancellationType"          
+            reasonForDelay:
+              type: array
+              maxItems: 100
+              items:
+                 $ref: "#/components/schemas/DelayReason"     
+            lastModified:
+              description: last modification time stamp of the event
+              type: string
+              format: date-time
+              examples:
+                - "2024-07-14T19:43:47+01:00"
+          required:
+            - objectType
+            - location
+            - plannedTime
+
+    TimeTableReference:
+      type: object
+      properties:
+        name:
+          description: name of the time table
+          type: string
+          maxLength: 1024          
+          x-extensible-enum:
+            - UIC_MERITS
+          examples:
+            - "UIC_MERITS"
+        version:
+          description: referenced version of the time table. In case of MERITS the date of delivery used in the file name.
+          type: string
+          maxLength: 1024
+          examples: 
+            - "2024-07-14"
+      required:
+       - name
+       - version
+         
+    TimeTableserviceRunId:
+       type: object
+       properties:
+          timeTable:
+            $ref: "#/components/schemas/TimeTableReference"    
+          id: 
+            type: string
+            maxLength: 1024
+            examples: 
+               - "43b65be1-dce9-42a3-b4df-9b8153129eae" 
+       required:
+               - id
+        
+    VehicleGroup:
+      type: object
+      properties:
+        id:
+           description: id of the vehicle group at least unique within the service run accross multiple arrivals and departures
+           type: string
+           maxLength: 1024
+        serviceRunRef:
+          description: |- 
+               service number for the vehicle group. This might be different from the main service number
+          $ref: "#/components/schemas/ServiceRunReference"
+        cancelled:
+           description: indicated that the vehicle group has been cancelled at the event where this vehicle group is listed.
+           type: boolean
+           default: false     	  
+        vehicles:
+          type: array
+          maxItems: 100
+          items:
+            $ref: "#/components/schemas/VehicleStop"
+ 
+    VehicleGroupRef:
+       type: object
+       properties:
+         id:
+           description: id of the vehicle group at least unique within the service run accross multiple arrivals and departures
+           type: string
+           maxLength: 1024
+         serviceRunRef:
+           description: |- 
+                service number for the vehicle group. This might be different from the main service number
+           $ref: "#/components/schemas/ServiceRunReference"
+         vehicleRefs:
+           type: array
+           maxItems: 100
+           items:
+            $ref: "#/components/schemas/VehicleRef"
+            
+    VehicleRef:
+      type: object
+      required:
+        - vehicleNumber
+      properties:
+        vehicleId:
+          description: UIC vehicle id or  another code defined as urn
+          type: string
+          maxLength: 1024
+          examples: 
+            - "urn:uic:veh:31816650286"
+        vehicleNumber:
+          description: |-
+            vehicle number used for customer commmunication in bookings and on
+            platforms. Note: not all verhicles might have a number (e.g. luggage
+            coaches, locomotives)
+          type: string
+          maxLength: 1024
+          examples:
+            - "12"      
+
+    VehicleStop:
+      type: object
+      required:
+        - vehicleRef
+      properties:
+        vehicleRef:
+          $ref: "#/components/schemas/VehicleRef"
+        facilities:
+          description: additional facilities available in the vehicle for the next section
+          type: array
+          maxItems: 500
+          items:
+            description: OSDM code list
+            type: string
+            maxLength: 1024
+          examples:
+            - "ALIGHTING_POSSIBLE_30M"
+            - "NURSERY_SERVICE"
+        serviceClasses:
+          type: array
+          maxItems: 100
+          items:
+            description: OSDM code list
+            type: string
+            maxLength: 1024
+          examples:
+            - SECOND_CLASS  
+        platform:
+            type: string
+            maxLength: 1024
+            examples:
+              - 6
+        platformSection:
+            type: string
+            maxLength: 1024
+            examples:
+              - "C"
+        track:
+            type: string
+            maxLength: 1024
+            examples:
+              - "13"
+        trackSection:
+            type: string
+            maxLength: 1024
+            examples:
+              - "C"
+        vehicleStatus:
+          description: |-
+             option to mark a coach as closed or missing
+          type: string
+          maxLength: 1024          
+          x-extensible-enum:
+             - USABLE
+             - MISSING
+             - CLOSED
+          default:    USABLE  

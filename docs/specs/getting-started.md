@@ -46,3 +46,17 @@ UML data models have been replaced by the graphical data description used for JS
 The following basic principles are behind the solution in this document:
  -	The provided real-time data has aways priority over the reference timetable.
  -	Data changes or additions by the platform must be made visible to the Data Consumers.
+
+### Actors
+
+![Actors](../images/actors.png)`
+
+
+| Role Name                | Definition                                                                                                   | Motivation/Distinction                                                                                                         |
+|--------------------------|--------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------|
+| Infrastructure Manager / IM | Infrastructure Manager according to TAP-TSI.                                                                | Delivers delay information and changes in train runs, that occur on his infrastructure to the RU. The IM is the original source of the data that is offered by the RU to the platform. The IM will not be an actor in the MVP. |
+| Data Provider            | The Data Provider is the RU concluding the transport contract with the passenger and responsible for the transport towards the passenger. | The actor delivers real-time information to the platform.                                                                      |
+| Data Consumer            | Data Consumer is a party with a verified and active license to collect Real-time information from the platform. | The user of the real-time data can have multiple commercial roles. It can be a distributor or retailer involved in customer information or a provider of schedule information only. All have a role in bringing passenger information to their customers. |
+| Platform Admin           | An entity that has access to the platform and has the rights to make changes to the platform.                 | The Platform Administrator has a role in managing the access to the real-time data access points. The Platform Administrator will verify that an order in the UIC webshop is finalised before granting access to the real-time platform. |
+| Platform Data Manager    | An entity that has access to the platform and has the rights to make changes to the platform configuration data. | The platform data manager has a role in updating the timetable in the platform and checking the system quality. And is responsible for addressing problems with Data Provider data to the Data Provider. |
+

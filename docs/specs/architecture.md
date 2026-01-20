@@ -78,7 +78,7 @@ Estimated times have a defined meaning independent from the source of the planne
 It was decided that estimated times are provided. How and whether these are indicated to the traveler as delays is up to the data consumer.
 
 
-## Arcitecture Overview
+## Architecture Overview
 
 On high level the architecture is simple. A Data Provider will deliver real-time according to the standard API format of the platform [see Bibliography] . The API is developed with the information in mind to cover most of the use cases related to international trains. It is expected that an RU as Data Provider can deliver all essential information. Other Data Providers are allowed to send data as long as they fill the essential information in the API.
 The platform will make consolidated Service Runs from the input of the Data Providers. The platform provides a push and a pull service to give Data Consumers the possibility to retrieve data.

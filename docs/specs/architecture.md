@@ -112,10 +112,12 @@ The platform will provide endpoints to add, modify and delete subscriptions to c
 -	PATCH / subscriptions/{subscriptionId} …
 -	DELETE / subscriptions/{subscriptionId}
 -	GET / subscriptions/company={companyId}
+
 The platform must ensure to keep the services running. To do so the platform is allowed to degrade the services for users not compliant with agreements or expected behaviour as:
 -	The platform might reject subscriptions if the number of registrations goes beyond the agreed limit.
 -	The platform might suspend a registered end point in case it is not responding according to the required service level.
 -	The platform will implement a retry mechanism in case of communication errors when providing notifications. The platform might abandon the delivery in case the communication errors on the end point provided by the Data Consumer goes beyond the usual limits.
+
 The platform will provide an endpoint to retrieve the Service Run using the id provided in the notification. The handling of communication errors is up to the Data Consumer.
 -	GET /serviceRuns {serviceRunId}             			- retrieve one service
 -	POST /serviceRuns/get {serviceRunIds}     			- retrieve multiple services

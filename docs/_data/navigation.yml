@@ -17,6 +17,8 @@
       link: spec/architecture/      
     - name: Technical Principles
       link: spec/technical-principles/
+    - name: Glossary
+      link: spec/glossary/      
 - name: Tools
   link: tools/
   dropdown:

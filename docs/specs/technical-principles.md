@@ -1,6 +1,6 @@
 ---
 layout: page
-title: DOSIPAS
+title: Technical Principles
 nav_order: 1
 parent: Technical Principles
 hide_hero: true

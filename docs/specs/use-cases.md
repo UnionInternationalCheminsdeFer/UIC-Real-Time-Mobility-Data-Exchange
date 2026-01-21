@@ -10,7 +10,7 @@ permalink: /spec/use-cases/
 
 # Use Cases
 
-![Use Case Overview](../images/usecases1.png)`
+![Use Case Overview](../images/usecases1.jpg)`
 
 ## Use Cases for a Data Consumers
 

@@ -49,6 +49,9 @@ The aim of a real-time platform is one platform and one standard across Europe, 
   - The first real-time message on a Service Run, regardless the time before departure or the information in the reference plan of the platform.
   - An update of previous received real-time information
 - The platform will contain an integrator function that will combine partial information on trains into a real-time message with planned times and real-time on all stops. When part of the data is not yet available, then the platform will give an estimation for the missing information. (See for details Match and merge ServiceRun data from multiple RUs)
+  - The integration of data from different providers on one service run will provide consolidated delay information showing the same delay on cooupled double tracktion parts.
+  - The integration of data from different providers on one service run will provide consolidated delay information showing a reasonable delay across the route by correcting the delays to be ordered along the route with reasonable timings.
+  - The integration of data from different providers on one service run will provide consolidated delay information in a transparent way so consumers can see the corrected delays separately.  
 - An integrated timetable should be used by the integrator function of the platform to solve data issues, e.g., when the planned times of two real-time messages for a train service delivered by two different Data Providers cannot be connected.
 - Possible to grant access to any consumers (not only RUs that provide input)
 - Possible to process data on multimodal services when sent to the platform in the generic API standard of the platform.

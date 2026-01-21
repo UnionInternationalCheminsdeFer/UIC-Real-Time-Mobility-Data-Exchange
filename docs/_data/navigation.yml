@@ -19,6 +19,8 @@
       link: spec/architecture/      
     - name: Technical Principles
       link: spec/technical-principles/
+    - name: Codel Lists
+      link: spec/code-list
     - name: Glossary
       link: spec/glossary/      
 - name: Tools

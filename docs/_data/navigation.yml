@@ -13,6 +13,8 @@
       link: spec/requirements/
     - name: Business Capabilities
       link: spec/business-capabilities
+    - name: Use Cases
+      link: spec/use-cases
     - name: Architecture
       link: spec/architecture/      
     - name: Technical Principles

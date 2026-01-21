@@ -18,6 +18,19 @@ permalink: /spec/use-cases/
 
 In order to retrieve data o his webhook(s) a data consumer needs to subscribe the webhook. The substription includes the url and credentials to allow the platform to send real time data to the webhook and defines filter criteria to restrict the data to be sent.
 
+The data comsumer can provide a filter in the subscription to limit the notifications received:
+
+- carrierFilterType:
+  -	**INCLUDE**: selects services where ANY of the specified carriers serve any part of the service.
+  -	**EXCLUSIVE**: selects services where ANY of the specified carriers serve all parts of the service. In this case, services run by multiple carriers are not included in the selection.
+  -	**EXCLUDE**: selects services where NONE of the specified companies are the carrier for any part of the service.
+- countryFilterType:
+  -	**INCLUDE**: select services where ANY of these countries is part of the route of the service. In this case, international services running at least partly in any of those countries are included in the selection.
+  -	**EXCLUSIVE**: select services where the route of the service is run completely inside ANY of these countries. In this case, international services across the provided countries are not included in the selection.
+  -	**EXCLUDE**: select services where NONE of the specified countries are any part of the service.
+
+![Actors](../images/filtercriteria1.png)`
+
 ### manage subscriptions
 
 A data consumer can manage its subscriptions via the API:
@@ -32,19 +45,6 @@ A data consumer can manage its subscriptions via the API:
 If there is real time data avialable that meet the filtercriteria of the data consumers description the data consumer will receive a notification on his webhook registered viy the subscription. The notification includes the id of the service run that has an update.
 
 The data consumer needs to retrieve the service run via the id provided in the notification.
-
-The data comsumer can provide a filter in the subscription to limit the notifications received:
-
-- carrierFilterType:
-  -	**INCLUDE**: selects services where ANY of the specified carriers serve any part of the service.
-  -	**EXCLUSIVE**: selects services where ANY of the specified carriers serve all parts of the service. In this case, services run by multiple carriers are not included in the selection.
-  -	**EXCLUDE**: selects services where NONE of the specified companies are the carrier for any part of the service.
-- countryFilterType:
-  -	**INCLUDE**: select services where ANY of these countries is part of the route of the service. In this case, international services running at least partly in any of those countries are included in the selection.
-  -	**EXCLUSIVE**: select services where the route of the service is run completely inside ANY of these countries. In this case, international services across the provided countries are not included in the selection.
-  -	**EXCLUDE**: select services where NONE of the specified countries are any part of the service.
-
-![Actors](../images/filtercriteria1.png)`
 
 ### retrieve real time data using the search for service runs
 

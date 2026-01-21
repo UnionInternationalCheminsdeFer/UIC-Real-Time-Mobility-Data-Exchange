@@ -10,7 +10,11 @@ permalink: /spec/use-cases/
 
 # Use Cases
 
-![Use Case Overview](../images/usecases1.jpg)`
+*Use Case Overview*
+
+![Use Case Overview](../images/usecases1.jpg)
+
+
 
 ## Use Cases for a Data Consumers
 
@@ -29,6 +33,7 @@ The data comsumer can provide a filter in the subscription to limit the notifica
   -	**EXCLUSIVE**: select services where the route of the service is run completely inside ANY of these countries. In this case, international services across the provided countries are not included in the selection.
   -	**EXCLUDE**: select services where NONE of the specified countries are any part of the service.
 
+*Filter criteria on carrier and country:*
 ![Actors](../images/filtercriteria1.png)`
 
 ### manage subscriptions

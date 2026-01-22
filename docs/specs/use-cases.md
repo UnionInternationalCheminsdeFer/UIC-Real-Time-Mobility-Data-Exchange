@@ -60,7 +60,7 @@ The service runs include the data received from the carriers. Additionally the f
 | replacedServiceRuns  | service run ids are those of the service runs on the platform                                         |
 | replacingServiceRuns | service run ids are those of the service runs on the platform                                         |
 | event.timeTabledTime | event time of the planned time table included in the platform. usually the latest MERITS time table   |
-| event.consolidatedEstimatedTime | estimated time ciorrected by the platform to eliminate inconsistencies between multiple data providers. |
+| event.consolidatedEstimatedTime | estimated time ciorrected by the platform to eliminate inconsistencies between multiple data providers. In case no consolidation was necessary the consolidated estimated time is identical to the estimated time. |
 | event.cancellationType  | indication whether an event was cancelled because it was in the reference time table and is not included in a data provider delivery. |
 | event.dataMaster  | data provider that provided data for this event as responsible data provider.                            |
 |   |   |
@@ -112,7 +112,7 @@ The service run must include the events of Departure and arrival. Optionally alo
 | stopId           | unique identifier of a stop. The id must be stable accoross all deliveries of the service run and becomes important in the case of multiple stops at the same location.                                                                                      |
 | occupancy | 'DEPARTURE' only, indication of the occupancyof the the service on departure                                |
 | congestion | 'DEPARTURE' only, indication of a congestion occuring                                                      |
-| vehicleGroups  | Vehicle groups in the event. This includes vegicle groups and coaches and can also provide platform sections per coach or indicate cancelled or unusable coaches.  |
+| vehicleGroups  | Vehicle groups in the event. This includes vegicle groups and coaches and can also provide platform sections per coach or indicate cancelled or unusable coaches. Especially in case of through coaches it is highly recommended to include the vehicle groups.         |
 | platform  | platform where the event happens                                                                            |
 | track  | track where the event happens                                                                                  |
 | connections  |  list of connections that are kept of missed or at risk.                                                 |

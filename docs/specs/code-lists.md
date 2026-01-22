@@ -11,24 +11,24 @@ permalink: /spec/code-lists/
 # Code Lists
 
 
-
 ## Using URNs
 
 | Code List                  | Name Space and domain | CodeList          | Description                                                                                                                                                        | example                       | base path for relative references   |
 |----------------------------|----------------------|-------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------|-------------------------------------|
-| stations                   | urn:uic              | stn               | UIC station codes (TAP-TSI retail station codes)                                                                                                                   | urn:uic:stn:8512345          | urn:uic:stn:                       |
+| stations                   | urn:uic              | stn               | UIC station codes (TAP-TSI retail station codes in case of rail stations)                                                                                                                   | urn:uic:stn:8512345          | urn:uic:stn:                       |
 | stations                   | urn:rne              | stn               | CRD location codes (TAP-TSI infrastructure codes) <br>*Infrastructure codes must not be used if a corresponding retail code exists.*                               | urn:rne:stn:8512345          | urn:rne:stn:                       |
 | service brands             | urn:uic              | sbc               | UIC service brand code (TAP-TSI B.4.7009 / https://uic.org/passenger/passenger-services-group/article/service-brand-code-list)                                     | urn:uic:sbc:17               | urn:uic:sbc:                       |
 | companies                  | urn:uic              | rics:ac           | company code (TAP-TSI [ERA Register](https://www.era.europa.eu/registers/ocr_en) / [UIC RICS](https://uic.org/support-activities/it/rics))                        | urn:uic:rics:1080            | urn:uic:rics:                      |
 | companies                  | urn:iata             | company           | company code IATA <br><br> *Note: iata namespace is not yet officially approved at IANA, there might be changes*                                                  | urn:iata:company:LH          |                                     |
 | Companie association alias | urn:uic              | CompanyAlias      | An alias for a list of companies                                                                                                                                   | urn:uic:companyAlias:xyz     |                                     |
 | countries                  | urn:iso              | std:iso:3166      | ISO Country Codes                                                                                                                                                  | urn:iso:std:iso:3166:CH      | urn:iso:std:iso:3166:              |
-| currencies                 | urn:iso              | std:iso:4217      | ISO Currency Codes                                                                                                                                                 | urn:iso:std:iso:4217:CFR     | urn:iso:std:iso:4217:              |
 | TAF reason for delay codes | urn:x-taf            | urn:x-taf:25      | TAF-TSI reason for delay codes defined by ERA <br><br> (Codelist defined in UIC Leaflet 450-2)                                                                     |                              |                                     |
 | UIC Passenger related      | urn:uic              | prc               | Codes to display the reason for delay or cancellation <br> See: Delay Reason Codes 8.6.2                                                                           | urn:uic:prc                  | urn:uic:prc                        |
 
 
 ## Delay Reasons
+
+The delay codes are aligned with the codes in the SIRI standard but use human readable codes following json uasge standards.
 
 | reason for delay or cancellation                 | description                                                         |
 |--------------------------------------------------|---------------------------------------------------------------------|

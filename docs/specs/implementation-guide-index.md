@@ -45,7 +45,7 @@ This implementation guide is organized into the following sections:
 - **[Data Provider Guide](implementation-guide-data-provider)** — How to send service runs and retrieve logs as a Data Provider
 - **[Data Consumer Guide](implementation-guide-data-consumer)** — How to subscribe, receive notifications, and retrieve service runs as a Data Consumer
 - **[JSON Schema](implementation-guide-json-schema)** — JSON schema reference, example messages, and datetime handling
-- **[Support](implementation-guide-support)** — Support channels, change requests, and contacts
+- **[Support](implementation-guide-support)** — Support channels, change requests etc.
 
 ## Glossary
 

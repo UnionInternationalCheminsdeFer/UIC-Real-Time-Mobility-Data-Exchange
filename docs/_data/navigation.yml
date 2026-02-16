@@ -20,7 +20,7 @@
     - name: Technical Principles
       link: spec/technical-principles/
     - name: Code Lists
-      link: spec/code-list
+      link: spec/code-lists
     - name: Glossary
       link: spec/glossary/      
 - name: Tools

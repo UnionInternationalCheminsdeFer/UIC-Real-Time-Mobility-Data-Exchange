@@ -5,7 +5,7 @@ parent: Implementation and Testing
 nav_order: 2
 hide_hero: true
 has_children: false
-permalink: /spec/implementation-guide/
+permalink: /spec/implementation-guide-index/
 ---
 
 # RTMDE Implementation Guide

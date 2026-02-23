@@ -6,7 +6,7 @@ nav_order: 1
 parent: Implementation and Testing
 hide_hero: true
 has_children: false
-permalink: /spec/implementation-testing/
+permalink: /spec/test-scenarios/
 ---
 
 # Test Scenarios

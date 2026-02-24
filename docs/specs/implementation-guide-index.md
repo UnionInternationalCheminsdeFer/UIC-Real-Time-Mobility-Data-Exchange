@@ -40,11 +40,11 @@ Data Consumer implementation:
 ## Documentation Structure
 
 This implementation guide is organized into the following sections:
-- **[Getting Started](/spec/implementation-guide-getting-started)** — Sign up process, environments, REST API basics, login, and validation
-- **[Data Provider Guide](/spec/implementation-guide-data-provider)** — How to send service runs and retrieve logs as a Data Provider
-- **[Data Consumer Guide](/spec/implementation-guide-data-consumer)** — How to subscribe, receive notifications, and retrieve service runs as a Data Consumer
-- **[JSON Schema](/spec/implementation-guide-json-schema)** — JSON schema reference, example messages, and datetime handling
-- **[Support](/spec/implementation-guide-support)** — Support channels, change requests etc.
+- **[Getting Started]({{ site.baseurl }}/spec/implementation-guide-getting-started)** — Sign up process, environments, REST API basics, login, and validation
+- **[Data Provider Guide]({{ site.baseurl }}/spec/implementation-guide-data-provider)** — How to send service runs and retrieve logs as a Data Provider
+- **[Data Consumer Guide]({{ site.baseurl }}/spec/implementation-guide-data-consumer)** — How to subscribe, receive notifications, and retrieve service runs as a Data Consumer
+- **[JSON Schema]({{ site.baseurl }}/spec/implementation-guide-json-schema)** — JSON schema reference, example messages, and datetime handling
+- **[Support]({{ site.baseurl }}/spec/implementation-guide-support)** — Support channels, change requests etc.
 
 ## Glossary
 

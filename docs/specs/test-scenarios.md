@@ -32,7 +32,6 @@ This section presents the test scenarios used for development and testing of RTM
 | 5 | National | Cancelled stop |
 | 6 | National | Cancelled train |
 | 7 | International | Train with delay (same delay) |
-| 7b | International | Train with "time travel" |
 | 7c | International | Train with added delay |
 | 8 | International | Cancelled stops |
 | 8b | International | Cancelled pass-through station |
@@ -150,21 +149,6 @@ An international train service involving two data providers. Each provider is Ma
 
 **Expected Result:**
 The Data Consumer sees that the delay is consistent across both providers.
-
----
-
-### Scenario 7b: International Train with "Time Travel"
-
-An international train involving two data providers where DP2 incorrectly reports significantly shorter delay than DP1 ("time travel").
-
-**Data Provider Actions:**
-- DP1 reports a delay
-- DP2 sends a significantly shorter delay
-
-**Expected Result:**
-- This scenario is **not allowed** to happen
-- RTMDE does not update the service run with the information from DP2
-- The Data Consumer only sees the data reported by DP1
 
 ---
 

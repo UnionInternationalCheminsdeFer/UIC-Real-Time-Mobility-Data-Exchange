@@ -35,7 +35,6 @@ Example JSON files and Postman collections for each scenario are available from 
 | Scenario 5 | National train with cancelled stop |
 | Scenario 6 | National train cancelled |
 | Scenario 7 | International train with delay |
-| Scenario 7b | International train with "time travel" |
 | Scenario 7c | International train with added delay |
 | Scenario 8 | International train with cancelled stop |
 | Scenario 8b | International train with cancelled pass-through station |

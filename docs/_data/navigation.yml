@@ -1,4 +1,5 @@
 - name: APIs (Swagger)
+  link: api/
   dropdown:
     - name: Online API v3.0.4 (stable version) - Swagger
       link: https://editor-next.swagger.io/?url=https://raw.githubusercontent.com/UnionInternationalCheminsdeFer/UIC-Real-Time-Mobility-Data-Exchange/master/specification/UIC_RealTimeApi_3.0.4.yml
@@ -27,7 +28,7 @@
       link: spec/glossary/
       
 - name: Implementation and Testing
-  link: spec/implementation-testing/
+  link: spec/implementation-testing
   dropdown:
     - name: Test Scenarios
       link: spec/test-scenarios

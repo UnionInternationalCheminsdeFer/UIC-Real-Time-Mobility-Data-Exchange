@@ -8,9 +8,8 @@ has_children: true
 permalink: /spec/glossary/
 ---
 
-#Glossary
+# Glossary
 
-Here is your table, converted into Markdown format:
 
 | Term                                 | Definition |
 |---------------------------------------|------------|

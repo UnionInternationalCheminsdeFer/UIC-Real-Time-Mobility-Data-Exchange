@@ -21,11 +21,12 @@
       link: spec/architecture/
     - name: Technical Principles
       link: spec/technical-principles/
+      link: spec/architecture/      
     - name: Code Lists
-      link: spec/code-list
+      link: spec/code-lists
     - name: Glossary
       link: spec/glossary/
-
+      
 - name: Implementation and Testing
   link: spec/implementation-guide-index
   dropdown:
@@ -43,7 +44,7 @@
       link: spec/implementation-guide-json-schema
     - name: Support
       link: spec/implementation-guide-support
-
+      
 - name: Tools
   link: https://github.com/UnionInternationalCheminsdeFer/UIC-Real-Time-Mobility-Data-Exchange/
   dropdown:

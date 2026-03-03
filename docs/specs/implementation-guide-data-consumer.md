@@ -32,6 +32,8 @@ Data Consumers using the full REST API need to set up a webhook URL and link it 
 
 ### Creating a Subscription
 
+<img width="856" height="309" alt="image" src="https://github.com/user-attachments/assets/7e0d3c6d-ed1d-4876-b690-f69dacbf02ae" />
+
 To create a subscription (one-time process), use the subscription REST resource:
 
 **POST** `[endpoint]/3_0_4/subscriptions`
@@ -120,6 +122,9 @@ You can request the notified service run using the `serviceruns` REST resource a
 **GET** `[endpoint]/3_0_4/serviceruns/{serviceId}`
 
 The response is compliant with the *Service* item from the definition file of the JSON schema.
+
+<img width="904" height="506" alt="image" src="https://github.com/user-attachments/assets/60a3148a-26cd-4487-82c3-64c1d9bd713e" />
+
 
 ## Retrieve Service by Search
 

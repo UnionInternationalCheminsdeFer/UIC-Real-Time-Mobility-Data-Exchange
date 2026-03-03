@@ -1,4 +1,5 @@
 - name: APIs (Swagger)
+  link: https://editor-next.swagger.io/?url=https://raw.githubusercontent.com/UnionInternationalCheminsdeFer/UIC-Real-Time-Mobility-Data-Exchange/master/specification/UIC_RealTimeApi_3.0.4.yml
   dropdown:
     - name: Online API v3.0.4 (stable version) - Swagger
       link: https://editor-next.swagger.io/?url=https://raw.githubusercontent.com/UnionInternationalCheminsdeFer/UIC-Real-Time-Mobility-Data-Exchange/master/specification/UIC_RealTimeApi_3.0.4.yml
@@ -6,7 +7,7 @@
       link: https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/UnionInternationalCheminsdeFer/UIC-Real-Time-Mobility-Data-Exchange/master/specification/UIC_RealTimeApi_3.0.4.yml,nocors
 
 - name: Specification
-  link: spec/
+  link: spec/getting-started
   dropdown:
     - name: Getting Started
       link: spec/getting-started
@@ -26,7 +27,7 @@
       link: spec/glossary/
 
 - name: Implementation and Testing
-  link: spec/implementation-testing/
+  link: spec/implementation-guide-index
   dropdown:
     - name: Test Scenarios
       link: spec/test-scenarios
@@ -44,7 +45,7 @@
       link: spec/implementation-guide-support
 
 - name: Tools
-  link: tools/
+  link: https://github.com/UnionInternationalCheminsdeFer/UIC-Real-Time-Mobility-Data-Exchange/
   dropdown:
     - name: UIC Real-Time-Mobility-Data-Exchange GitHub
       link: https://github.com/UnionInternationalCheminsdeFer/UIC-Real-Time-Mobility-Data-Exchange/

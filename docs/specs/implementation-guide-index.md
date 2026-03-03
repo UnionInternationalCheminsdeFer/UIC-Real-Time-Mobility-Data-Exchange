@@ -29,6 +29,9 @@ In order to implement RTMDE, either as Data Provider or Data Consumer, it is nec
 
 A company using RTMDE can act in the role of Data Provider, Data Consumer, or both. There are separate API endpoints and user pools for each role.
 
+<img width="888" height="443" alt="image" src="https://github.com/user-attachments/assets/794aa865-a5ab-46af-bfd3-00d0e70d36b7" />
+
+
 **Data Provider** — Data Providers push service runs to RTMDE using REST API to deliver service run updates.
 
 **Data Consumer** — Data Consumers retrieve updated service runs from RTMDE. The Data Consumer creates one or more subscriptions, each containing a filter specifying the services of interest (e.g., services running in France, or services run by Renfe).

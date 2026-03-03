@@ -12,6 +12,9 @@ permalink: /spec/implementation-guide-data-provider/
 
 This section covers how to use RTMDE as a Data Provider, including sending service runs and retrieving logs.
 
+<img width="485" height="268" alt="image" src="https://github.com/user-attachments/assets/046c65e8-a787-4ab7-afe2-ea94a05aafe5" />
+
+
 ## Overview
 
 The Data Provider sends service runs to the RTMDE.
